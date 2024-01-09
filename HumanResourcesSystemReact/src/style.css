@@ -1,0 +1,8 @@
+#root{
+    min-height: 100svh;
+}
+.app{
+    min-height: inherit;
+    display: flex;
+    flex-direction: column;
+}
