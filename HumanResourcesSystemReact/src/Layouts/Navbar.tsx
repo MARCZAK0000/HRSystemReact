@@ -40,7 +40,7 @@ export const NavBar = ()=>{
                  <div className="collapse navbar-collapse flex-row-reverse">
                      <ul className="navbar-nav">
                          <li className="nav-item fs-5 me-1">
-                             <Link className="nav-link" to="/">Welcome ${user.user?.email}</Link>
+                             <Link className="nav-link" to="/">Welcome {user.user?.email}</Link>
                          </li>
                      </ul>
                  </div>

@@ -1,7 +1,8 @@
 import { useUser } from "../../Hooks/useUserContext";
 import DashboardPage from "./DashboardPage";
+import HomePage from "./HomePage";
 
-const HomePage = ()=>{
+const MainPage = ()=>{
 
     const user = useUser()
     return(
@@ -11,4 +12,4 @@ const HomePage = ()=>{
     )
 };
 
-export default HomePage
+export default MainPage

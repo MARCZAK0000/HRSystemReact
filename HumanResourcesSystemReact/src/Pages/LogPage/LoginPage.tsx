@@ -15,7 +15,7 @@ const LoginPage = ()=>{
     const handleClick = async (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault()
         try {
-            const response = await fetch("https://localhost:7068/api/user/signin",{
+            const response = await fetch("https://localhost:7068/api/account/signin",{
                 method: 'POST', 
                 mode: 'cors',
                 headers: { 'Content-Type': 'application/json' },
@@ -23,7 +23,7 @@ const LoginPage = ()=>{
             } )
 
             if(!response.ok){
-                throw new Error("Something asdasdasdsawent wrong")
+                throw new Error("Something went wrong")
             }
 
             const result = await response.json() as loginUserResponseProps

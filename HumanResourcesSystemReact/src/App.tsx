@@ -4,6 +4,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { createBrowserRouter } from "react-router-dom";
 import { PublicRoutes } from "./Utilities/Routes";
 import { UserContextProvider } from "./Hooks/useUserContext";
+import { UserInfoContextProvider } from "./Hooks/useUserInformations";
 
 
 
@@ -12,10 +13,11 @@ import { UserContextProvider } from "./Hooks/useUserContext";
 export default function App() {
   const routerList = PublicRoutes()
   const router = createBrowserRouter(routerList)
-
     return(
       <UserContextProvider>
-        <RouterProvider router={router}/>
+        <UserInfoContextProvider>
+          <RouterProvider router={router}/>
+        </UserInfoContextProvider>
       </UserContextProvider>
     )
 }

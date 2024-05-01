@@ -16,11 +16,20 @@ export type useApiCallProps = {
 };
 
 export type loginUserResponseProps = {
-  Result: boolean;
-  Email: string;
-  Username: string;
-  Token: string;
-  Message: string;
+  result: boolean;
+  email: string;
+  username: string;
+  token: string;
+  message: string;
+};
+
+export type UserInformationsProps = {
+  name: string;
+  lastName: string;
+  userCode: string;
+  email: string;
+  phone: string;
+  departmentName: string;
 };
 
 export type ErrorResponse = {
