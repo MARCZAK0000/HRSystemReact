@@ -5,9 +5,11 @@ import LoginPage from "../Pages/LoginPage/LoginPage";
 import MainPage from "../Pages/RootPage/MainPage/MainPage";
 import WelcomeUserPage from "../Pages/Outlets/WelcomePage/WelcomePage";
 import ArrivalsPage from "../Pages/Outlets/ArrivalsPage/ArrivalsPage";
-import AbsencePage from "../Pages/Outlets/AbsencePage/AbsenceMainPage/AbsencePage";
 import CreateAbsencePage from "../Pages/Outlets/AbsencePage/CreateAbsence/CreateAbsencePage";
 import AbsenceInfoPage from "../Pages/Outlets/AbsencePage/AbsenceInfo/AbsenceInfoPage";
+import AbsenceHomePage from "../Pages/Outlets/AbsencePage/AbsenceHomePage/AbsenceHomePage";
+import AbsenceLayout from "../Pages/Outlets/AbsencePage/AbsenceLayoutPage/AbsenceLayout";
+
 
 
 
@@ -19,7 +21,10 @@ export function PublicRoutes(): RouteObject[]{
         element: <Layout/>,
         children:[
             {path: "/", element: <MainPage/>, children: [{
-                    path: "/user/absence", element: <AbsencePage/>, children:[{
+                    path: "/user/absence", element: <AbsenceLayout/>, children:[{
+                            path:"/user/absence", element: <AbsenceHomePage/>
+                        },
+                        {
                             path: "/user/absence/create", element: <CreateAbsencePage/>
                         },{
                             path: "/user/absence/info", element: <AbsenceInfoPage/>
