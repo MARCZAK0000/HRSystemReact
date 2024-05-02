@@ -1,8 +1,8 @@
 import { useEffect} from 'react';
-import { useUser } from '../../Hooks/useUserContext';
+import { useUser } from '../../../Hooks/useUserContext';
 import { Col, Container, ListGroup, ListGroupItem, Row } from 'react-bootstrap';
 import { Link, Outlet } from 'react-router-dom';
-import { useUserInformations } from '../../Hooks/useUserInformations';
+import { useUserInformations } from '../../../Hooks/useUserInformations';
 import React from 'react';
 
 type childrenType = {

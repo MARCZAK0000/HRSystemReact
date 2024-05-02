@@ -1,12 +1,13 @@
 import { Navigate, RouteObject } from "react-router";
-import Layout from "../Pages/LayoutPage/LayoutPage";
-import RegisterPage from "../Pages/LogPage/RegisterPage";
-import LoginPage from "../Pages/LogPage/LoginPage";
-import MainPage from "../Pages/HomePage/MainPage";
-import AbsencePage from "../Pages/LoggedPages/AbsencePage/CreateAbsence";
-import WelcomeUserPage from "../Pages/HomePage/WelcomePage";
-import ArrivalsPage from "../Pages/LoggedPages/ArrivalsPage/ArrivalsPage";
-import CreateAbsencePage from "../Pages/LoggedPages/AbsencePage/CreateAbsence/CreateAbsencePage";
+import Layout from "../Pages/RootPage/LayoutPage/LayoutPage";
+import RegisterPage from "../Pages/RegisterPage/RegisterPage";
+import LoginPage from "../Pages/LoginPage/LoginPage";
+import MainPage from "../Pages/RootPage/MainPage/MainPage";
+import WelcomeUserPage from "../Pages/Outlets/WelcomePage/WelcomePage";
+import ArrivalsPage from "../Pages/Outlets/ArrivalsPage/ArrivalsPage";
+import AbsencePage from "../Pages/Outlets/AbsencePage/AbsenceMainPage/AbsencePage";
+import CreateAbsencePage from "../Pages/Outlets/AbsencePage/CreateAbsence/CreateAbsencePage";
+import AbsenceInfoPage from "../Pages/Outlets/AbsencePage/AbsenceInfo/AbsenceInfoPage";
 
 
 

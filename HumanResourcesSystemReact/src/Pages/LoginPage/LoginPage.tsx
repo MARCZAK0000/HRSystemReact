@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom"
-import { Button } from "../../Layouts/button"
+import { Button } from "../../Components/button"
 import { loginInput } from '../../Utilities/input';
 import { useState } from "react"
 import { loginStateProps, loginUserResponseProps } from "../../Utilities/Types";

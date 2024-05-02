@@ -1,5 +1,5 @@
 import { registerInput } from "../../Utilities/input"
-import { Button } from "../../Layouts/button"
+import { Button } from "../../Components/button"
 import React, { useState } from "react"
 import { ErrorResponse, registerStateProps } from '../../Utilities/Types';
 import { useNavigate } from "react-router"

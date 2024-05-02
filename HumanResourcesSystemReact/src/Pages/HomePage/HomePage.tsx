@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { Button } from "../../Layouts/button"
+import { Button } from "../../Components/button"
 import { useState } from "react"
 import { loginStateProps } from "../../Utilities/Types"
 import { loginInput } from "../../Utilities/input"
@@ -55,7 +55,7 @@ const HomePage = ()=>{
                         </div>
                         <div className='pt-2'>
                             <p>
-                                <Link to={"/"}>Create account?</Link>
+                                <Link to={"/register"}>Create account?</Link>
                             </p>
                             <p>
                                 <Link to={"/"}>Forget password?</Link>

@@ -1,6 +1,6 @@
-import { useUser } from "../../Hooks/useUserContext";
-import DashboardPage from "./DashboardPage";
-import HomePage from "./HomePage";
+import { useUser } from "../../../Hooks/useUserContext";
+import DashboardPage from "../DashboardPage/DashboardPage";
+import HomePage from "../../HomePage/HomePage";
 
 const MainPage = ()=>{
 
