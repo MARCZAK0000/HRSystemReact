@@ -2,8 +2,9 @@ import { Link, useNavigate } from "react-router-dom"
 import { Button } from "../../Components/button"
 import { loginInput } from '../../Utilities/input';
 import { useState } from "react"
-import { loginStateProps, loginUserResponseProps } from "../../Utilities/Types";
+import { loginStateProps } from "../../Utilities/Types";
 import { useUser } from "../../Hooks/useUserContext";
+import { useLogin } from "../../Hooks/useLogin";
 const LoginPage = ()=>{
 
     const [state, setState] = useState<loginStateProps>({IsRemember: false} as loginStateProps)
@@ -15,37 +16,24 @@ const LoginPage = ()=>{
     const handleClick = async (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault()
         try {
-            const response = await fetch("https://localhost:7068/api/account/signin",{
-                method: 'POST', 
-                mode: 'cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(state)
-            } )
+            const result = await useLogin(state)
 
-            if(!response.ok){
-                throw new Error("Something went wrong")
-            }
-
-            const result = await response.json() as loginUserResponseProps
-            console.log(result);
-            if(!result.result){
-                console.log(result.result)
-                throw new Error(result.message)
-            }
-            user.setUser({
-                email: result.email,
-                username: result.username,
-                token: result.token
-            })
-            console.log(user.user?.token);
-            
+        if(typeof(result) === "undefined"){
+            alert("Something went wrong")
+            navigate("/login", {replace: true})
+            return
+        }
+        user.setUser({
+            email: result.email,
+            username: result.username,
+            token: result.token
+        })
             
             navigate("/", {replace: true})
         } catch (error) {
             console.log(error)
             navigate("/login" ,{replace: true})
         }
-        
 
     }
 

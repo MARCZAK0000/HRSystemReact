@@ -1,18 +1,20 @@
-import { useEffect} from 'react';
+import { useEffect, useRef, useState} from 'react';
 import { useUser } from '../../../Hooks/useUserContext';
-import { Col, Container, ListGroup, ListGroupItem, Row } from 'react-bootstrap';
-import { Link, Outlet } from 'react-router-dom';
+import { Col, Container, Nav, Row } from 'react-bootstrap';
+import { Link, Outlet, Router, useLocation } from 'react-router-dom';
 import { useUserInformations } from '../../../Hooks/useUserInformations';
-import React from 'react';
+import MenuLink from '../../../Components/MenuDashboardPage';
+import { Route } from 'react-router';
 
-type childrenType = {
-    children: React.ReactNode
-}
+
 
 const DashboardPage = () => {
     console.log("XD")
     const info = useUserInformations();
     const user = useUser()
+    const path = useLocation()
+    const url = useRef<string>(window.location.href)
+    //const [url, setUrl] = useState<string>(window.location.href)
     useEffect(()=>{
         const fetchData = async ()=>{
 
@@ -38,6 +40,8 @@ const DashboardPage = () => {
         }
         fetchData();
     },[])
+    
+
     return(
         <>
             <Container fluid className='flex-grow-1'>
@@ -46,20 +50,33 @@ const DashboardPage = () => {
                         <div className='display-6 py-2'>
                             <span>Menu</span>
                         </div>
-                        <ListGroup title='Menu'>
-                            <ListGroupItem>
-                                <Link to="/">Home</Link>
-                            </ListGroupItem>
-                            <ListGroupItem>
-                                <Link to="/user/arrivals">Arrivals</Link>
-                            </ListGroupItem>
-                            <ListGroupItem className='nav-item'>
-                                <Link to="/user/absence">Absences</Link>
-                            </ListGroupItem>
-                            <ListGroupItem>
-                                <Link to ="/account/settings">Settings</Link>
-                            </ListGroupItem>
-                        </ListGroup>
+                        <Nav className='flex-column' variant='pills' defaultActiveKey="/" >
+                            <MenuLink 
+                            to={"/"} 
+                            isActive={window.location.href.endsWith("/")? true : false}
+                            >Home
+                            </MenuLink>
+                            <MenuLink 
+                            to={"/user/arrivals"} 
+                            isActive={window.location.href.endsWith("/user/arrivals")? true : false}
+                            >Arrival
+                            </MenuLink>
+                            <MenuLink 
+                            to={"/user/absence"} 
+                            isActive={window.location.href.endsWith("/user/absence")? true : false}
+                            >Absence
+                            </MenuLink>
+                            <MenuLink 
+                            to={"/account/settings"} 
+                            isActive={window.location.href.endsWith("/account/settings")? true : false}
+                            >Settings
+                            </MenuLink>
+                            <MenuLink 
+                            to={"/asdasd"} 
+                            isActive={window.location.href.endsWith("/asdasd")? true : false}
+                            >Logout
+                            </MenuLink>
+                        </Nav>
                     </Col>
                     <Col xs={9} className='border-start' style={{height: '650px'}}>
                        <Outlet/>

@@ -1,15 +1,30 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Button } from "../../Components/button"
 import { useState } from "react"
 import { loginStateProps } from "../../Utilities/Types"
 import { loginInput } from "../../Utilities/input"
+import { useLogin } from "../../Hooks/useLogin"
+import { useUser } from "../../Hooks/useUserContext"
 
 const HomePage = ()=>{
     const [state, setState] = useState<loginStateProps>({IsRemember:false} as loginStateProps)
-
-    const handleClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
+    const navigate = useNavigate()
+    const user = useUser();
+    const handleClick = async (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault()
-        console.log(state)
+        const result = await useLogin(state)
+
+        if(typeof(result) === "undefined"){
+            alert("Something went wrong")
+            navigate("/login", {replace: true})
+            return
+        }
+        user.setUser({
+            email: result.email,
+            username: result.username,
+            token: result.token
+        })
+        navigate("/", {replace: true})
     }
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{

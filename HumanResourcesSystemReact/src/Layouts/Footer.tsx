@@ -9,7 +9,7 @@ export const Footer = ()=>{
             <ul className="nav col-md-4 justify-content-end list-unstyled d-flex pe-3">
                 <li className="ms-3"><a className="text-body-secondary" href="#"><i className="bi bi-facebook fs-2"></i></a></li>
                 <li className="ms-3"><a className="text-body-secondary" href="#"><i className="bi bi-github fs-2"></i></a></li>
-                <li className="ms-3"><a className="text-body-secondary" href="#"><i className="bi bi-facebook fs-2"></i></a></li>
+                <li className="ms-3"><a className="text-body-secondary" href="#"><i className="bi bi-instagram fs-2"></i></a></li>
             </ul>
       </div>
    </footer>
