@@ -9,7 +9,7 @@ type MenuDashboardPageType = {
 
 const MenuLink = ({children, isActive,to} : MenuDashboardPageType)=>{
     return (<>
-        <Link to={to} className={isActive? 'nav-link border active text-dark text-decoration-none' : 'nav-link border text-dark text-decoration-none '}>{children}</Link>
+        <Link to={to} className={`nav-link border text-dark text-decoration-none ${isActive?'active':''}`}>{children}</Link>
     </>)
 }
 

@@ -58,28 +58,28 @@ const DashboardPage = () => {
                             </MenuLink>
                             <MenuLink 
                             to={"/user/arrivals"} 
-                            isActive={window.location.href.endsWith("/user/arrivals")? true : false}
+                            isActive={window.location.href.includes("/user/arrivals")? true : false}
                             >Arrival
                             </MenuLink>
                             <MenuLink 
                             to={"/user/absence"} 
-                            isActive={window.location.href.endsWith("/user/absence")? true : false}
+                            isActive={window.location.href.includes("/user/absence")? true : false}
                             >Absence
                             </MenuLink>
                             <MenuLink 
                             to={"/account/settings"} 
-                            isActive={window.location.href.endsWith("/account/settings")? true : false}
+                            isActive={window.location.href.includes("/account/settings")? true : false}
                             >Settings
                             </MenuLink>
                             <MenuLink 
                             to={"/asdasd"} 
-                            isActive={window.location.href.endsWith("/asdasd")? true : false}
+                            isActive={window.location.href.includes("/asdasd")? true : false}
                             >Logout
                             </MenuLink>
                         </Nav>
                     </Col>
                     <Col xs={9} className='border-start' style={{height: '650px'}}>
-                       <Outlet/>
+                        <Outlet/>
                     </Col>
                     
                     
