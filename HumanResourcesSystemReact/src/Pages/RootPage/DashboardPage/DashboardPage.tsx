@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState} from 'react';
+import { useEffect} from 'react';
 import { useUser } from '../../../Hooks/useUserContext';
 import { Col, Container, Nav, Row } from 'react-bootstrap';
-import { Link, Outlet, Router, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { useUserInformations } from '../../../Hooks/useUserInformations';
 import MenuLink from '../../../Components/MenuDashboardPage';
-import { Route } from 'react-router';
+
+import { useForceUpdate } from '../../../Hooks/useForceUpdate';
 
 
 
@@ -12,8 +13,7 @@ const DashboardPage = () => {
     console.log("XD")
     const info = useUserInformations();
     const user = useUser()
-    const path = useLocation()
-    const url = useRef<string>(window.location.href)
+    const forceUpdate = useForceUpdate();
     //const [url, setUrl] = useState<string>(window.location.href)
     useEffect(()=>{
         const fetchData = async ()=>{
@@ -50,7 +50,7 @@ const DashboardPage = () => {
                         <div className='display-6 py-2'>
                             <span>Menu</span>
                         </div>
-                        <Nav className='flex-column' variant='pills' defaultActiveKey="/" >
+                        <Nav onClick={forceUpdate} className='flex-column' variant='pills' defaultActiveKey="/" >
                             <MenuLink 
                             to={"/"} 
                             isActive={window.location.href.endsWith("/")? true : false}
@@ -78,7 +78,7 @@ const DashboardPage = () => {
                             </MenuLink>
                         </Nav>
                     </Col>
-                    <Col xs={9} className='border-start' style={{height: '650px'}}>
+                    <Col xs={10} className='border-start' style={{height: '650px'}}>
                         <Outlet/>
                     </Col>
                     

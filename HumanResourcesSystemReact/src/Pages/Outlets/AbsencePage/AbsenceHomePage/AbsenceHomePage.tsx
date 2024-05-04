@@ -8,18 +8,20 @@ const AbsenceHomePage = ()=>{
         <Container className="text-center pb-4 pt-3">
             <span className = "display-6">Welcome to absence center</span>
         </Container>
-        <Row className = "h-80 d-flex align-items-center">
-            <Col>     
-                    <MenuCard img = {HR2} link="/user/absence/create" color="success">
-                        <p>Create Absence</p>
+        <Container>
+            <Row className = "h-80 d-flex align-items-center">
+                <Col>     
+                        <MenuCard img = {HR2} link="/user/absence/create" color="success">
+                            <p>Create Absence</p>
+                        </MenuCard>
+                </Col> 
+                <Col>
+                    <MenuCard img = {HR1} link="/user/absence/info" color="danger">
+                        <p>Absence Info</p>
                     </MenuCard>
-            </Col> 
-            <Col>
-                <MenuCard img = {HR1} link="/user/absence/info" color="danger">
-                    <p>Absence Info</p>
-                </MenuCard>
-            </Col>
-        </Row>
+                </Col>
+            </Row>
+        </Container>
     </>)
 }
 
