@@ -9,6 +9,7 @@ import CreateAbsencePage from "../Pages/Outlets/AbsencePage/CreateAbsence/Create
 import AbsenceInfoPage from "../Pages/Outlets/AbsencePage/AbsenceInfo/AbsenceInfoPage";
 import AbsenceHomePage from "../Pages/Outlets/AbsencePage/AbsenceHomePage/AbsenceHomePage";
 import AbsenceLayout from "../Pages/Outlets/AbsencePage/AbsenceLayoutPage/AbsenceLayout";
+import ForgetPasswordPage from "../Pages/ForgetPassword/ForgetPasswordPage";
 
 
 
@@ -38,6 +39,7 @@ export function PublicRoutes(): RouteObject[]{
                 }] },
             {path: "/register", element: <RegisterPage/>},
             {path: "/login", element: <LoginPage/>},
+            {path: "/forget", element: <ForgetPasswordPage/>},
             {path: "*", element: <Navigate to="/" replace/>}
         ]
     }]

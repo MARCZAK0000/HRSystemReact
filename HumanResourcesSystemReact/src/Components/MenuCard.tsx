@@ -1,4 +1,4 @@
-import { Button, Card } from "react-bootstrap"
+import { Button, Card, Container } from "react-bootstrap"
 import { Link } from "react-router-dom"
 
 type MenuCardType = {
@@ -12,14 +12,16 @@ const MenuCard = ({children, img,link, color}: MenuCardType) =>{
     return(<>
         <Card>
             <Card.Body>
-                <Card.Title>{children}</Card.Title>
-                <Card.Img style={{height: '300px'}} src={img}></Card.Img>
-                <Card.Text>
+                <Card.Title className="text-center">{children}</Card.Title>
+                <Card.Img style={ {height: '450px'}} src={img}></Card.Img>
+                <Card.Text className="text-center">
                     {children}
                 </Card.Text>
-                <Button variant={color}>
-                    <Link className="text-white text-decoration-none " to = {link}>GO!</Link>
-                </Button>
+                <Container className="text-center">
+                    <Button className="btn-lg" variant={color}>
+                        <Link className="text-white text-decoration-none " to = {link}>GO!</Link>
+                    </Button>
+                </Container>
             </Card.Body>
         </Card>
     </>)

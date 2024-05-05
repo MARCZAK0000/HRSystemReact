@@ -1,7 +1,7 @@
 export const Footer = ()=>{
     return(
-   <footer className="container-fluid">
-        <div className="d-flex flex-wrap justify-content-between border-top align-items-center py-2">
+   <footer className="container-fluid border-top">
+        <div className="d-flex flex-wrap justify-content-between  align-items-center py-2">
             <div className="col-md-4 d-flex align-items-center">
             <span className="mb-3 mb-md-0 text-body-secondary">© 2023 HR-System, Inc</span>
             </div>

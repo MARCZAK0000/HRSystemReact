@@ -1,4 +1,4 @@
-import { Container, Nav, Navbar } from "react-bootstrap"
+import { Col, Container, Nav, Navbar } from "react-bootstrap"
 import { Outlet } from "react-router"
 import NavLinkMenu from "../../../../Components/NavLinkMenu"
 import { useForceUpdate } from "../../../../Hooks/useForceUpdate"
@@ -6,9 +6,8 @@ import { useForceUpdate } from "../../../../Hooks/useForceUpdate"
 const AbsenceLayout = ()=>{
     const forceUpdate = useForceUpdate() //To Update WindowLocation
     return(<>
-        <Container fluid className="border-bottom">
-            <Navbar onClick={forceUpdate}>
-                <Nav variant="tabs">
+            <Navbar className="border-bottom" onClick={forceUpdate} style={{height: '75px'}}>
+                <Nav className="ps-2" variant="tabs">
                     <Nav.Item>
                         <NavLinkMenu isActive={window.location.href.endsWith("/user/absence")} 
                         to={"/user/absence"}>Home</NavLinkMenu>
@@ -23,7 +22,7 @@ const AbsenceLayout = ()=>{
                     </Nav.Item>
                 </Nav>
             </Navbar>
-        </Container>
+        
         <Outlet/>
     </>)
 }

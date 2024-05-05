@@ -73,7 +73,7 @@ const HomePage = ()=>{
                                 <Link to={"/register"}>Create account?</Link>
                             </p>
                             <p>
-                                <Link to={"/"}>Forget password?</Link>
+                                <Link to={"/forget"}>Forget password?</Link>
                             </p>
                         </div>
                     </form>
