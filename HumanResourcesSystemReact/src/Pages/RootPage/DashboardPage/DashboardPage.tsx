@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState} from 'react';
+import { useEffect, useState} from 'react';
 import { useUser } from '../../../Hooks/useUserContext';
 import { Col, Container, Nav, Row } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
@@ -32,10 +32,7 @@ const DashboardPage = () => {
                 }
 
                 const result = await response.json()
-                console.log(result)
                 info.setUserInfo(result)
-                console.log(info.userInfo!.departmentName)
-                
             } catch (error) {
                 console.log(error)
             }
@@ -46,47 +43,45 @@ const DashboardPage = () => {
 
     return(
         <>
-            <Container fluid className='flex-grow-1 d-flex'>
-                <Row className='flex-grow-1'>
-                    <Col className='border-end' xs={2}>
-                        <div className='display-6 py-2'>
-                            <span>Menu</span>
-                        </div>
-                        <Nav onClick={handleClick} className='flex-column' variant='pills' defaultActiveKey="" >
-                            <MenuLink 
-                            to={"/"} 
-                            isActive={path.endsWith("/")? true : false}
-                            >Home
-                            </MenuLink>
-                            <MenuLink 
-                            to={"/user/arrivals"} 
-                            isActive={path.includes("/user/arrivals")? true : false}
-                            >Arrival
-                            </MenuLink>
-                            <MenuLink 
-                            to={"/user/absence"} 
-                            isActive={path.includes("/user/absence")? true : false}
-                            >Absence
-                            </MenuLink>
-                            <MenuLink 
-                            to={"/account/settings"} 
-                            isActive={path.includes("/account/settings")? true : false}
-                            >Settings
-                            </MenuLink>
-                            <MenuLink 
-                            to={"/asdasd"} 
-                            isActive={path.includes("/asdasd")? true : false}
-                            >Logout
-                            </MenuLink>
-                        </Nav>
-                    </Col>
-                    <Col xs={10}>
-                        <Row><Outlet/></Row>
-                    </Col>
-                    
-                    
-                </Row>
-            </Container>
+            <Row className='flex-grow-1 d-flex mx-0'>
+                <Col className='border-end' xs={2}>
+                    <div className='display-6 py-2'>
+                        <span>Menu</span>
+                    </div>
+                    <Nav onClick={handleClick} className='flex-column' variant='pills' defaultActiveKey="" >
+                        <MenuLink 
+                        to={"/"} 
+                        isActive={path.endsWith("/")? true : false}
+                        >Home
+                        </MenuLink>
+                        <MenuLink 
+                        to={"/user/attendance"} 
+                        isActive={path.includes("/user/attendance")? true : false}
+                        >Attendance
+                        </MenuLink>
+                        <MenuLink 
+                        to={"/user/absence"} 
+                        isActive={path.includes("/user/absence")? true : false}
+                        >Absence
+                        </MenuLink>
+                        <MenuLink 
+                        to={"/account/settings"} 
+                        isActive={path.includes("/account/settings")? true : false}
+                        >Settings
+                        </MenuLink>
+                        <MenuLink 
+                        to={"/asdasd"} 
+                        isActive={path.includes("/asdasd")? true : false}
+                        >Logout
+                        </MenuLink>
+                    </Nav>
+                </Col>
+                <Col xs={10} className='d-flex flex-grow-1 p-0 m-0'>
+                    <Container fluid className='p-0 m-0'>
+                        <Outlet/>
+                    </Container>
+                </Col>
+            </Row>
         </>
     )
 }

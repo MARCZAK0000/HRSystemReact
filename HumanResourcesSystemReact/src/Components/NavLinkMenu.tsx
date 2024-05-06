@@ -12,7 +12,6 @@ const NavLinkMenu = ({children, to, isActive} : NavLinkType)=>{
             <Link className={`nav-link text-decoration-none text-dark ${isActive?'active':''}`} to={to}>
                 {children}
             </Link>
-            {console.log(window.location.href)}
         </>
     )
 }
