@@ -5,7 +5,8 @@ import React, {useState, useContext} from 'react'
 export type User = {
     email : string,
     username: string,
-    token: string
+    token: string,
+    refreshToken: string
 }
 type UserContextType = {
     user: User|null

@@ -4,6 +4,7 @@ import Footer from "../../../Layouts/Footer";
 import { Container } from "react-bootstrap";
 
 export default function Layout(){
+
     return(
         <div className="app">
             <NavBar/>

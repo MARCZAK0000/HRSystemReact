@@ -6,7 +6,6 @@ import { Container } from "react-bootstrap";
 export const NavBar = ()=>{
 
     const user = useUser();
-    console.log(user.user?.email)
     return(
         <Container fluid className="p-0 m-0 d-flex">
             <nav className="ps-5 navbar navbar-expand-lg navbar-light border-bottom w-100">

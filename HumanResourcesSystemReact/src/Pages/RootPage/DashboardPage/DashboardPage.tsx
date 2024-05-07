@@ -1,25 +1,48 @@
 import { useEffect, useState} from 'react';
 import { useUser } from '../../../Hooks/useUserContext';
-import { Col, Container, Nav, Row } from 'react-bootstrap';
+import { Button, Col, Container, Nav, Row } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
 import { useUserInformations } from '../../../Hooks/useUserInformations';
 import MenuLink from '../../../Components/MenuDashboardPage';
 
 
 const DashboardPage = () => {
-    console.log("XD")
     const info = useUserInformations();
     const user = useUser();
     const [path, setPath] = useState<string>(window.location.href)
 
-
     const handleClick = ()=>{
         setPath(window.location.href)
     }
-    //const [url, setUrl] = useState<string>(window.location.href)
+   
+
+    const RefreshToken = ()=>{
+        fetch("https://localhost:7068/api/account/refresh", {
+            method: "POST",
+            mode: 'cors',
+            headers: {
+                'Content-Type':'application/json',
+                'Authorization':`Bearer ${user.user?.token}`
+            },
+            body:JSON.stringify({refreshToken: localStorage.getItem('RefreshToken')})
+        }).
+        then(response=> response.json())
+        .then(data=>{
+            console.log(data)
+            if(data.refreshToken != undefined){
+                localStorage.setItem('RefreshToken', data.refreshToken)
+            }
+        })
+    }
+    
+    useEffect(()=>{
+        const minutes = 60*1000
+        RefreshToken()
+        setInterval(RefreshToken, minutes*3)
+    },[])
+
     useEffect(()=>{
         const fetchData = async ()=>{
-
             try {
                 const response = await fetch("https://localhost:7068/api/user/info", {
                     method: 'GET', 
@@ -39,8 +62,6 @@ const DashboardPage = () => {
         }
         fetchData();
     },[])
-    
-
     return(
         <>
             <Row className='flex-grow-1 d-flex mx-0'>
@@ -78,6 +99,7 @@ const DashboardPage = () => {
                 </Col>
                 <Col xs={10} className='d-flex flex-grow-1 p-0 m-0'>
                     <Container fluid className='p-0 m-0'>
+                        <Button onClick={RefreshToken}>Send</Button>
                         <Outlet/>
                     </Container>
                 </Col>

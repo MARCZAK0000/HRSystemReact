@@ -5,6 +5,8 @@ import { createBrowserRouter } from "react-router-dom";
 import { PublicRoutes } from "./Utilities/Routes";
 import { UserContextProvider } from "./Hooks/useUserContext";
 import { UserInfoContextProvider } from "./Hooks/useUserInformations";
+import { useEffect } from "react";
+import { useRefreshToken } from "./Hooks/useRefreshToken";
 
 
 
@@ -13,6 +15,7 @@ import { UserInfoContextProvider } from "./Hooks/useUserInformations";
 export default function App() {
   const routerList = PublicRoutes()
   const router = createBrowserRouter(routerList)
+
     return(
       <UserContextProvider>
         <UserInfoContextProvider>
