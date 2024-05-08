@@ -67,10 +67,10 @@ const ForgetPasswordPage = ()=>{
             <Container className="flex-grow-1 d-flex align-items-center flex-column py-5">
                 <Form onSubmit={handleSubmit} className="w-50 pt-3">
                     <Form.Group >
-                        <Form.Label className="">Email</Form.Label>
+                        <Form.Label className="display-6">Email</Form.Label>
                         <Form.Control name="email" onChange={handleChange} type="email" placeholder="Enter email"/>
                     </Form.Group>
-                    <Form.Group className="pt-3">
+                    <Form.Group className="pt-3 display-6">
                         <Form.Label>Phone number</Form.Label>
                         <Form.Control name="phone" onChange={handleChange} type="phone" placeholder="Enter Phone"/>
                     </Form.Group>

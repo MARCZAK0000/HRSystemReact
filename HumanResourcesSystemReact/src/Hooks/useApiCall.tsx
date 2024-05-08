@@ -3,13 +3,14 @@ import { useState } from "react"
 export type ApiCallResponse<T> = {
     data:T,
     error:boolean,
+    success: boolean
     fetchFunc: (method: RequestInit) => Promise<void>
 }
 
 export function useApiCall<T>(url: string):ApiCallResponse<T>{ 
     const [data,setData]=useState<T>({} as T)
     const [error, setError]=useState<boolean>(false)
-
+    const [success, setSuccess] = useState<boolean>(false)
     const fetchFunc = async (method: RequestInit):Promise<void> =>{
         console.log("Im in fetch function")
         try {
@@ -19,13 +20,16 @@ export function useApiCall<T>(url: string):ApiCallResponse<T>{
             }
             const result :T = await response.json() 
             setData(result)
+            if(result != undefined || result!=null){
+                setSuccess(true)
+            }
         } catch (error) {
             console.log(error)
             setError(true)
         }
     }
     
-    return {data , error, fetchFunc}
+    return {data , error, fetchFunc, success}
 }        
 
 
