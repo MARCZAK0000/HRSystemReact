@@ -1,6 +1,6 @@
 import { useEffect, useState} from 'react';
 import { useUser } from '../../../Hooks/useUserContext';
-import { Button, Col, Container, Nav, Row } from 'react-bootstrap';
+import { Col, Container, Nav, Row } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
 import { useUserInformations } from '../../../Hooks/useUserInformations';
 import MenuLink from '../../../Components/MenuDashboardPage';
@@ -99,7 +99,6 @@ const DashboardPage = () => {
                 </Col>
                 <Col xs={10} className='d-flex flex-grow-1 p-0 m-0'>
                     <Container fluid className='p-0 m-0'>
-                        <Button onClick={RefreshToken}>Send</Button>
                         <Outlet/>
                     </Container>
                 </Col>

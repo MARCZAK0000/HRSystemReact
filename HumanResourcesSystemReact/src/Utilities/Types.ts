@@ -20,6 +20,7 @@ export type loginUserResponseProps = {
   email: string;
   username: string;
   token: string;
+  refreshToken: string;
   message: string;
 };
 

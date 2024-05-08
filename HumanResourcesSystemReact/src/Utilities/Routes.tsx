@@ -14,6 +14,9 @@ import AttendanceHomePage from "../Pages/Outlets/AttendancePage/HomePage.tsx/Att
 import AttendanceCreatePage from "../Pages/Outlets/AttendancePage/CreatePage/AttendanceCreatePage";
 import AttendanceDeparturePage from "../Pages/Outlets/AttendancePage/DeparturePage/AttendanceDeparturePage";
 import AttendanceInfoPage from "../Pages/Outlets/AttendancePage/InfoPage/AttendanceInfoPage";
+import RecoveryPasswordPage from "../Pages/ForgetPassword/RecoveryPassword/RecoveryPasswordPage";
+import ForgetPasswordLayout from "../Pages/ForgetPassword/ForgetPasswordLayout/ForgetPasswrodLayout";
+
 
 
 
@@ -51,7 +54,11 @@ export function PublicRoutes(): RouteObject[]{
                 }] },
             {path: "/register", element: <RegisterPage/>},
             {path: "/login", element: <LoginPage/>},
-            {path: "/forget", element: <ForgetPasswordPage/>},
+            {path: "/forget", element: <ForgetPasswordLayout/>, children:[{
+                    path:"/forget", element: <ForgetPasswordPage/>
+                },{
+                    path: "/forget/token", element: <RecoveryPasswordPage/>
+                }]},
             {path: "*", element: <Navigate to="/" replace/>}
         ]
     }]

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Alert, Button, Container, Form } from "react-bootstrap"
+import { Button, Container, Form } from "react-bootstrap"
 import { Link } from "react-router-dom"
 
 type ForgetPasswordType = {
@@ -62,8 +62,8 @@ const ForgetPasswordPage = ()=>{
             <Container className="py-5 display-4 text-center">
                 Forget Password?
             </Container>
-            <Container className="text-center display-6 w-75">Enter the email address and 
-                    phone number associated and we'll send you a link to reset password</Container>
+            <Container className="text-center display-6 w-75">Enter an email address and 
+                    phone number associated with your account and we'll send you a link to reset password</Container>
             <Container className="flex-grow-1 d-flex align-items-center flex-column py-5">
                 <Form onSubmit={handleSubmit} className="w-50 pt-3">
                     <Form.Group >
