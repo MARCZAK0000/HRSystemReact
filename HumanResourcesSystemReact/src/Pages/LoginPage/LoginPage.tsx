@@ -29,8 +29,8 @@ const LoginPage = ()=>{
             token: result.token,
             refreshToken: result.refreshToken
         })
-            localStorage.setItem('RefreshToken', result.refreshToken)
-            navigate("/", {replace: true})
+        localStorage.setItem('RefreshToken', result.refreshToken)
+        navigate("/", {replace: true})
         } catch (error) {
             console.log(error)
             navigate("/login" ,{replace: true})

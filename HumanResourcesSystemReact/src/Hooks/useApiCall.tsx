@@ -22,6 +22,7 @@ export function useApiCall<T>(url: string):ApiCallResponse<T>{
             setData(result)
             if(result != undefined || result!=null){
                 setSuccess(true)
+                setError(false)
             }
         } catch (error) {
             console.log(error)

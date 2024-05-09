@@ -1,14 +1,17 @@
 import { useEffect, useState} from 'react';
-import { useUser } from '../../../Hooks/useUserContext';
+import { useUser, User } from '../../../Hooks/useUserContext';
 import { Col, Container, Nav, Row } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
 import { useUserInformations } from '../../../Hooks/useUserInformations';
 import MenuLink from '../../../Components/MenuDashboardPage';
-
+import { useApiCall } from '../../../Hooks/useApiCall';
+import { loginUserResponseProps } from '../../../Utilities/Types';
 
 const DashboardPage = () => {
     const info = useUserInformations();
     const user = useUser();
+    const refreshTokenRequest =useApiCall<loginUserResponseProps>('https://localhost:7068/api/account/refresh')
+    const [tokens, setTokens] = useState<string []>([])
     const [path, setPath] = useState<string>(window.location.href)
 
     const handleClick = ()=>{
@@ -16,29 +19,39 @@ const DashboardPage = () => {
     }
    
 
-    const RefreshToken = ()=>{
-        fetch("https://localhost:7068/api/account/refresh", {
-            method: "POST",
-            mode: 'cors',
-            headers: {
-                'Content-Type':'application/json',
-                'Authorization':`Bearer ${user.user?.token}`
-            },
-            body:JSON.stringify({refreshToken: localStorage.getItem('RefreshToken')})
-        }).
-        then(response=> response.json())
-        .then(data=>{
-            console.log(data)
-            if(data.refreshToken != undefined){
-                localStorage.setItem('RefreshToken', data.refreshToken)
+    const RefreshToken = async ()=>{
+
+
+        try{
+            const response = await fetch('https://localhost:7068/api/account/refresh', {
+                method: "POST",
+                mode: 'cors',
+                headers: {
+                    'Content-Type':'application/json',
+                    'Authorization':`Bearer ${user.user?.token}`
+                },
+                body:JSON.stringify({refreshToken: localStorage.getItem('RefreshToken')})
+            })
+            if(!response.ok){
+                throw new Error(`${localStorage.getItem('RefreshToken')}`)
             }
-        })
+            const result : loginUserResponseProps = await response.json()
+
+            user.setUser({
+                email: result.email,
+                username: result.username,
+                token: result.token,
+                refreshToken: result.refreshToken
+            });
+            localStorage.setItem('RefreshToken', result.refreshToken)
+        }
+        catch(error){
+            console.log(error)
+        }
     }
-    
     useEffect(()=>{
         const minutes = 60*1000
-        RefreshToken()
-        setInterval(RefreshToken, minutes*3)
+        setInterval(RefreshToken, minutes*5)
     },[])
 
     useEffect(()=>{
@@ -62,6 +75,7 @@ const DashboardPage = () => {
         }
         fetchData();
     },[])
+
     return(
         <>
             <Row className='flex-grow-1 d-flex mx-0'>
@@ -105,6 +119,6 @@ const DashboardPage = () => {
             </Row>
         </>
     )
-}
+}   
 
-export default DashboardPage;
+export default DashboardPage

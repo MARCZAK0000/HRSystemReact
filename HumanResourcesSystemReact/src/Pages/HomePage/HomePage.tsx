@@ -28,7 +28,6 @@ const HomePage = ()=>{
         })
 
         localStorage.setItem('RefreshToken', result.refreshToken)
-        console.log(localStorage.getItem('RefreshToken'))
         navigate("/", {replace: true})
     }
 
