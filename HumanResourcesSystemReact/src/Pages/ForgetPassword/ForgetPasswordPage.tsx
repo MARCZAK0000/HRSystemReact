@@ -80,13 +80,13 @@ const ForgetPasswordPage = ()=>{
                 </Form>
                 <Container className="text-center pt-5">
                     <Container>
-                        <span>If you have account</span>
+                        <span>If you have account </span>
                         <Link to="/login">
                             Log In
                         </Link>
                     </Container>
                     <Container>
-                        <span>Don't have account?</span>
+                        <span>Don't have account? </span>
                         <Link to="/register">
                             Sing Up
                         </Link>

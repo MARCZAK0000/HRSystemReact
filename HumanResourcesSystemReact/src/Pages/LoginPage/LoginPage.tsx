@@ -30,8 +30,6 @@ const LoginPage = ()=>{
             refreshToken: result.refreshToken
         })
             localStorage.setItem('RefreshToken', result.refreshToken)
-
-            console.log(localStorage.getItem('RefreshToken'))
             navigate("/", {replace: true})
         } catch (error) {
             console.log(error)
