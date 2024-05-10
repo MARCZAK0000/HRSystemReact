@@ -1,17 +1,14 @@
 import { useEffect, useState} from 'react';
-import { useUser, User } from '../../../Hooks/useUserContext';
+import { useUser } from '../../../Hooks/useUserContext';
 import { Col, Container, Nav, Row } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
 import { useUserInformations } from '../../../Hooks/useUserInformations';
 import MenuLink from '../../../Components/MenuDashboardPage';
-import { useApiCall } from '../../../Hooks/useApiCall';
 import { loginUserResponseProps } from '../../../Utilities/Types';
 
 const DashboardPage = () => {
     const info = useUserInformations();
     const user = useUser();
-    const refreshTokenRequest =useApiCall<loginUserResponseProps>('https://localhost:7068/api/account/refresh')
-    const [tokens, setTokens] = useState<string []>([])
     const [path, setPath] = useState<string>(window.location.href)
 
     const handleClick = ()=>{
@@ -20,8 +17,6 @@ const DashboardPage = () => {
    
 
     const RefreshToken = async ()=>{
-
-
         try{
             const response = await fetch('https://localhost:7068/api/account/refresh', {
                 method: "POST",
@@ -54,6 +49,7 @@ const DashboardPage = () => {
         setInterval(RefreshToken, minutes*5)
     },[])
 
+
     useEffect(()=>{
         const fetchData = async ()=>{
             try {
@@ -68,6 +64,7 @@ const DashboardPage = () => {
                 }
 
                 const result = await response.json()
+                console.log(result)
                 info.setUserInfo(result)
             } catch (error) {
                 console.log(error)

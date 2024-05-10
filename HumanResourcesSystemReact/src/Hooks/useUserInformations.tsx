@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react"
 
 type UserInformationsType = {
+    userId: string,
     name: string,
     lastName: string,
     userCode: string,
