@@ -39,3 +39,11 @@ export type ErrorResponse = {
   Status: number;
   Detail: string;
 };
+
+export type GetAttendanceDtoType = {
+  id: string;
+  userId: string;
+  arrival: string;
+  createDay: string;
+  isCompleted: boolean;
+};

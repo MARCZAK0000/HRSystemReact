@@ -1,22 +1,49 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button, Container, Form } from "react-bootstrap"
 import { useApiCall } from '../../../../Hooks/useApiCall';
 import { useUser } from "../../../../Hooks/useUserContext";
-import { useUserInformations } from "../../../../Hooks/useUserInformations";
 import { CurrentDate } from "../../../../Utilities/CurrentDate";
+import { GetAttendanceDtoType } from "../../../../Utilities/Types";
 
 const AttendanceDeparturePage = () =>{
     const [isLocked, setIsLocked] = useState<boolean>(true)
-
+    const [attendance, setAttendance] = useState<GetAttendanceDtoType>({} as GetAttendanceDtoType)
     const user = useUser()
-    const userInfo = useUserInformations()
-    const apiCall = useApiCall<boolean>('https://localhost:7068/api/attendance')
+    const sendAttendanceApi = useApiCall<boolean>('https://localhost:7068/api/attendance')
+
     const handleSwitch = ()=>{
         setIsLocked(prev=>!prev)
     }
 
+    useEffect(()=>{
+        const getAttendance = async () =>{
+            try {
+                const response = await fetch(`https://localhost:7068/api/attendance/info/date?date=${CurrentDate()}`,{
+                    method: "GET",
+                    mode:"cors",
+                    headers: {
+                        "Content-type":"Application/json",
+                        "Authorization":`Bearer ${user.user?.token}`
+                    }
+                })
+                if(!response.ok){
+                    throw new Error("getAttendance: Error")
+                }
+                const result : GetAttendanceDtoType = await response.json()
+                console.log(result)
+                setAttendance(prev=>({...prev, ...result}))
+    
+            } catch (error) {
+                console.log(error);
+                
+            }
+            console.log(attendance)
+        }
+
+        getAttendance()
+    },[])
     const handleClick = async ()=>{
-        await apiCall.fetchFunc({
+        await sendAttendanceApi.fetchFunc({
             method:'PUT',
             mode: 'cors',
             headers:{
@@ -24,12 +51,11 @@ const AttendanceDeparturePage = () =>{
                 'Authorization':`Bearer ${user.user?.token}`
             },
             body: JSON.stringify({
-                userId: userInfo.userInfo?.userId,
                 departureDate: CurrentDate()
             })
         })
 
-        if(apiCall.error|| apiCall.data == false){
+        if(sendAttendanceApi.error|| sendAttendanceApi.data == false){
             alert('Something went wrong, try again later')
         }
     }
@@ -55,7 +81,7 @@ const AttendanceDeparturePage = () =>{
                 <Container className="d-flex justify-content-center pt-3">
                     <Button disabled={isLocked} onClick={handleClick} variant="success btn-lg">Close Day</Button>
                 </Container>
-
+                <Button>Hello</Button>
             </Container>
         </Container>
     </>)
