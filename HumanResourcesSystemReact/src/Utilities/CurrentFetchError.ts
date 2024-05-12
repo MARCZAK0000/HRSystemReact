@@ -1,4 +1,4 @@
-export function CurrentHTTPError(errorCode: number): string {
+export function CurrentHTTPError(errorCode: number | undefined): string {
   let message: string = "";
   switch (errorCode) {
     case 400:

@@ -1,6 +1,9 @@
 import React, { useState } from "react"
 import { Button, Container, Form } from "react-bootstrap"
 import { Link } from "react-router-dom"
+import { useAxiosRequest } from "../../Hooks/useAxiosRequest"
+import { ToastContainer, toast } from "react-toastify"
+import { CurrentHTTPError } from "../../Utilities/CurrentFetchError"
 
 type ForgetPasswordType = {
     email: string,
@@ -18,7 +21,7 @@ const ForgetPasswordPage = ()=>{
         phone: ''
     })
     const [isSend, setIsSend] = useState<boolean>(false)
-
+    const {error, errorCode, success, get} = useAxiosRequest<ResponseType>()
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
         setState(prev=>({
             ...prev,
@@ -28,37 +31,33 @@ const ForgetPasswordPage = ()=>{
 
     const handleSubmit = async (e:React.ChangeEvent<HTMLFormElement>)=>{
         e.preventDefault();
-        try{
-            const response = await fetch(
-                `https://localhost:7068/api/account/forget_password?Email=${state.email}&PhoneNumber=${state.phone}`,{
-                    method:"GET",
-                    mode:"cors",
-                    headers:{
-                        'content-type':'application/json'
-                    }
-                })
-            if(!response.ok){
-                throw new Error("Invalid response from Forget Password")
+        console.log(state);
+        
+        const response = await get(
+            `https://localhost:7068/api/account/forget_password?Email=${state.email}&PhoneNumber=${state.phone}`,{
+            headers:{
+                "Content-type":"application/json"
             }
-            
-            const result : ResponseType = await response.json()
-            
-            if(!result.result){
-                alert("There was a problem with your data. Check your data and send it back")
-                return
-            }
-            setIsSend(true)
+        })
+        if(error){
+            toast.error(CurrentHTTPError(errorCode))
+        }
 
+        if(typeof(response) === "undefined"){
+            return
         }
-        catch(err){
-            console.log(err)
-            alert("Try again later")
+
+        if(!response.result){
+            toast.error("Invalid values of state")
         }
+        setIsSend(true)
+        
     }
     return(
     <>
         {!isSend?
         <Container className = "flex-grow-1 d-flex flex-column">
+            <ToastContainer/>
             <Container className="py-5 display-4 text-center">
                 Forget Password?
             </Container>

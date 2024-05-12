@@ -2,6 +2,9 @@ import { useState } from "react"
 import { Button, Container, Form } from "react-bootstrap"
 import { Link, useSearchParams } from "react-router-dom"
 import { useApiCall } from "../../../Hooks/useApiCall"
+import { useAxiosRequest } from "../../../Hooks/useAxiosRequest"
+import { toast } from "react-toastify"
+import { CurrentHTTPError } from "../../../Utilities/CurrentFetchError"
 type RecoveryPasswordType = {
     Token: string|null,
     Email: string|null,
@@ -19,6 +22,7 @@ const RecoveryPasswordPage = ()=>{
     const apiCall = useApiCall<ResponseType>
         ('https://localhost:7068/api/account/forget_password')
 
+    const {error, errorCode, success, put} = useAxiosRequest<ResponseType>()
     const [state, setState]=useState<RecoveryPasswordType>({
         Email : searchParams.get('email'),
         Password: '',
@@ -32,31 +36,24 @@ const RecoveryPasswordPage = ()=>{
     }     
     const handleSubmit = async (e:React.ChangeEvent<HTMLFormElement>)=>{
         e.preventDefault();
-        console.log(state.Token?.replace(' ','+'))
-        await apiCall.fetchFunc( {
-            method:"PUT",
-            mode:"cors",
-            headers:{
-                "Content-type":"Application/json"
-            },
-            body: JSON.stringify(state)
+        const response = await put('https://localhost:7068/api/account/forget_password', {
+            body: JSON.stringify(state),
+           
         })
-
-        if(apiCall.error || apiCall.data.result === false){
-            alert('Something went wrong, check credentials')
-            return
+        if(error){
+            toast.error(CurrentHTTPError(errorCode))
+        }
+        if(typeof(response)===undefined){
+            return 
         }
         
-        if(apiCall.data.result){
-            alert(apiCall.data.message)
-        }
     }
 
     return(
     <>
         <Container fluid className="d-flex">
             {
-                !apiCall.success?
+                !success?
                 <Container> 
                 <Container className="text-center py-5 display-3">Reset Password</Container>
                 <Container className="text-center display-6">
