@@ -2,9 +2,10 @@ import { useState } from "react"
 import { Button, Container, Form } from "react-bootstrap"
 import { Link, useSearchParams } from "react-router-dom"
 import { useApiCall } from "../../../Hooks/useApiCall"
-import { useAxiosRequest } from "../../../Hooks/useAxiosRequest"
+
 import { toast } from "react-toastify"
 import { CurrentHTTPError } from "../../../Utilities/CurrentFetchError"
+import { useAxiosRequest } from "../../../Hooks/useAxiosRequest"
 type RecoveryPasswordType = {
     Token: string|null,
     Email: string|null,
@@ -38,7 +39,9 @@ const RecoveryPasswordPage = ()=>{
         e.preventDefault();
         const response = await put('https://localhost:7068/api/account/forget_password', {
             body: JSON.stringify(state),
-           
+            headers: {
+                "Content-Type":"application/json"
+            }
         })
         if(error){
             toast.error(CurrentHTTPError(errorCode))
