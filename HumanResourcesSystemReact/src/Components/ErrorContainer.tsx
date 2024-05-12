@@ -1,6 +1,8 @@
 import { Container } from "react-bootstrap";
-
-export default function ErrorContainer(ErrorCode: number|undefined){
+type ErrorContainerType = {
+    ErrorCode: number|undefined
+}
+export default function ErrorContainer({ErrorCode}: ErrorContainerType){
     return (<>
         <Container className = "text-center">
             {ErrorCode === 400 &&

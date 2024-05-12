@@ -5,37 +5,33 @@ import { useState } from "react"
 import { loginStateProps } from "../../Utilities/Types";
 import { useUser } from "../../Hooks/useUserContext";
 import { useLogin } from "../../Hooks/useLogin";
+import toastr from "toastr";
 const LoginPage = ()=>{
 
     const [state, setState] = useState<loginStateProps>({IsRemember: false} as loginStateProps)
     const user = useUser()
     const navigate = useNavigate()
-   
+    const {result, error, errorCode, login ,success} = useLogin()
 
 
     const handleClick = async (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault()
-        try {
-            const result = await useLogin(state)
-
-        if(typeof(result) === "undefined"){
-            alert("Something went wrong")
-            navigate("/login", {replace: true})
-            return
+        console.log(result)
+        await login(state)
+        if(error){
+            toastr.error("There is a problem with fetch request")
+        }
+        if(!success){
+            toastr.error("Invalid email or password")
         }
         user.setUser({
-            email: result.email,
+            email : result.email,
             username: result.username,
             token: result.token,
             refreshToken: result.refreshToken
         })
         localStorage.setItem('RefreshToken', result.refreshToken)
         navigate("/", {replace: true})
-        } catch (error) {
-            console.log(error)
-            navigate("/login" ,{replace: true})
-        }
-
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{

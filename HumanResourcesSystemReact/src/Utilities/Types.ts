@@ -17,10 +17,10 @@ export type useApiCallProps = {
 
 export type loginUserResponseProps = {
   result: boolean;
-  email: string;
+  email: string | undefined;
   username: string;
   token: string;
-  refreshToken: string;
+  refreshToken: string | undefined;
   message: string;
 };
 

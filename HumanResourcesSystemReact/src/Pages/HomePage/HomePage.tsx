@@ -6,29 +6,38 @@ import { loginInput } from "../../Utilities/input"
 import { useLogin } from "../../Hooks/useLogin"
 import { useUser } from "../../Hooks/useUserContext"
 import { Container, Row } from "react-bootstrap"
+import toastr from "toastr"
 
 const HomePage = ()=>{
     const [state, setState] = useState<loginStateProps>({IsRemember:false} as loginStateProps)
     const navigate = useNavigate()
     const user = useUser();
+    const {result, error, errorCode, login,success} =  useLogin()
     const handleClick = async (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault()
-        const result = await useLogin(state)
-
-        if(typeof(result) === "undefined"){
-            alert("Something went wrong")
-            navigate("/login", {replace: true})
-            return
+        await login(state)
+        if(error){
+            toastr.error("There is a problem with fetch request")
+        }
+        if(!success){
+            toastr.error("There is a problem with login: ")
         }
         user.setUser({
-            email: result.email,
+            email : result.email,
             username: result.username,
             token: result.token,
             refreshToken: result.refreshToken
         })
 
+        if(error){
+            toastr.error("There is a problem with login request")
+        }
+        if(!success){
+            toastr.error("Invalid Email or Password")
+        }
         localStorage.setItem('RefreshToken', result.refreshToken)
         navigate("/", {replace: true})
+
     }
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{

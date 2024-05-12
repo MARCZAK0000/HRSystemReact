@@ -1,25 +1,61 @@
+import { useState } from 'react';
 import { loginStateProps, loginUserResponseProps } from '../Utilities/Types';
+import axios, { AxiosHeaders } from 'axios';
+import { useUser } from './useUserContext';
 
-export async function useLogin(state: loginStateProps) :Promise<loginUserResponseProps | undefined> {
-    try{
-        const response = await fetch("https://localhost:7068/api/account/signin", {
-            method: "POST",
-            mode: 'cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(state)
-        } )
-        if(!response.ok){
-            throw new Error("Login Fetch has error")
+type LoginType = {
+    result : loginUserResponseProps,
+    error: boolean,
+    errorCode: number|undefined
+    login : (state: loginStateProps)=>Promise<void>
+    success: boolean
+}
+
+export function useLogin() :LoginType {
+
+    const [result, setResult] = useState<loginUserResponseProps>({} as loginUserResponseProps)
+    const [error, setError] = useState<boolean>(false)
+    const [errorCode, setErrorCode]= useState<number|undefined>(0)
+    const [success, setSuccess] = useState<boolean>(false)
+    const user  = useUser()
+    const login = async (state: loginStateProps)=>{
+        console.log(state)
+        console.log(result)
+        try
+        {
+            const response = await axios.post<loginUserResponseProps>("https://localhost:7068/api/account/signin",{
+                email: state.Email,
+                password: state.Password
+            },{
+                headers: {
+                    "Content-Type":"Application/json"
+                }
+            })
+            if(response.status!=200){
+                throw new Error("Login Fetch has error")
+            }
+            if(!response.data.result){
+                throw new Error(response.data.message)
+            }
+            setResult(response.data)
+            setSuccess(true)
+            setError(false)
         }
-        const result = await response.json() as loginUserResponseProps;
-
-        if(!result.result){
-            throw new Error(result.message)
+        catch(error){
+            setError(true)
+            if(axios.isAxiosError(error)){
+                console.error(error.message)
+                setErrorCode(error.response?.status)
+            }
         }
+    }
+    
+    user.setUser({
+        email : result.email,
+        username: result.username,
+        token: result.token,
+        refreshToken: result.refreshToken
+    })
 
-        return result
-    }
-    catch(error){
-        console.error(error);
-    }
+    return {result, error, errorCode, login, success}
 }
