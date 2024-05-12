@@ -1,45 +1,49 @@
 import { useEffect, useState } from "react"
-import { Button, Container, Form } from "react-bootstrap"
+import { Button, Container, Form, Table } from "react-bootstrap"
 import { useApiCall } from '../../../../Hooks/useApiCall';
 import { useUser } from "../../../../Hooks/useUserContext";
 import { CurrentDate } from "../../../../Utilities/CurrentDate";
-import { GetAttendanceDtoType } from "../../../../Utilities/Types";
+import { ErrorCodeTypes, GetAttendanceDtoType } from "../../../../Utilities/Types";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import ErrorContainer from "../../../../Components/ErrorContainer";
 
 const AttendanceDeparturePage = () =>{
     const [isLocked, setIsLocked] = useState<boolean>(true)
     const [attendance, setAttendance] = useState<GetAttendanceDtoType>({} as GetAttendanceDtoType)
     const user = useUser()
     const sendAttendanceApi = useApiCall<boolean>('https://localhost:7068/api/attendance')
-
+    const [error, setError] = useState<boolean>(false)
+    const [errorCode, setErrorCode] = useState<number|undefined>(0)
     const handleSwitch = ()=>{
         setIsLocked(prev=>!prev)
     }
+    const getAttendance = async ()=>{
 
-    useEffect(()=>{
-        const getAttendance = async () =>{
-            try {
-                const response = await fetch(`https://localhost:7068/api/attendance/info/date?date=${CurrentDate()}`,{
-                    method: "GET",
-                    mode:"cors",
-                    headers: {
-                        "Content-type":"Application/json",
-                        "Authorization":`Bearer ${user.user?.token}`
-                    }
-                })
-                if(!response.ok){
-                    throw new Error("getAttendance: Error")
+        try {
+            const result = await axios.get<GetAttendanceDtoType>(`https://localhost:7068/api/attendance/info/date?date=${CurrentDate()}`,{
+                headers: {
+                    "Content-type":"Application/json",
+                    "Authorization":`Bearer ${user.user?.token}`
                 }
-                const result : GetAttendanceDtoType = await response.json()
-                console.log(result)
-                setAttendance(prev=>({...prev, ...result}))
-    
-            } catch (error) {
-                console.log(error);
-                
+            })
+            console.log(result.status)  
+            setAttendance(result.data)
+        } catch (error) {
+            if(axios.isAxiosError(error)){
+                setErrorCode(error.response?.status)
+                console.log('error message: ', error.response?.status);
+                return error.message;
             }
-            console.log(attendance)
+            else {
+                console.log('unexpected error: ', error);
+                return 'An unexpected error occurred';
+              }
         }
 
+
+    }
+    useEffect(()=>{
         getAttendance()
     },[])
     const handleClick = async ()=>{
@@ -51,6 +55,7 @@ const AttendanceDeparturePage = () =>{
                 'Authorization':`Bearer ${user.user?.token}`
             },
             body: JSON.stringify({
+                Id: attendance.id,
                 departureDate: CurrentDate()
             })
         })
@@ -78,11 +83,35 @@ const AttendanceDeparturePage = () =>{
                             onChange={handleSwitch}/>
                     </Form>
                 </Container>
-                <Container className="d-flex justify-content-center pt-3">
-                    <Button disabled={isLocked} onClick={handleClick} variant="success btn-lg">Close Day</Button>
+                {!error?
+                <Container className="pt-5">
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Arrival Time</th>
+                                <th>Created Day</th>
+                                <th>IsCompleted</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{attendance.id}</td>
+                                <td>{attendance.arrival}</td>
+                                <td>{new Date(attendance.createDay).toLocaleDateString()}</td>
+                                <td>{attendance.isCompleted?'true':'false'}</td>
+                            </tr>
+                        </tbody>
+                    </Table>
                 </Container>
-                <Button>Hello</Button>
+                :
+                <ErrorContainer ErrorCode = {errorCode}/>
+            }
+                <Container className="d-flex justify-content-center pt-3">
+                    <Button disabled={isLocked || error} onClick={handleClick} variant="success btn-lg">Close Day</Button>
+                </Container>
             </Container>
+            
         </Container>
     </>)
 }

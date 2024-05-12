@@ -16,7 +16,7 @@ export function useApiCall<T>(url: string):ApiCallResponse<T>{
         try {
             const response = await fetch(url, method)
             if(!response.ok){
-                throw new Error("Fetch request: has error")
+                throw new Error(response.status.toString())
             }
             const result :T = await response.json() 
             setData(result)

@@ -47,3 +47,10 @@ export type GetAttendanceDtoType = {
   createDay: string;
   isCompleted: boolean;
 };
+
+export type ErrorCodeTypes = {
+  BadRequest: boolean;
+  Forbidden: boolean;
+  Unauthorized: boolean;
+  NotFound: boolean;
+};
