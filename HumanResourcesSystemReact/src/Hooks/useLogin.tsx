@@ -4,10 +4,9 @@ import axios, { AxiosHeaders } from 'axios';
 import { useUser } from './useUserContext';
 
 type LoginType = {
-    result : loginUserResponseProps,
     error: boolean,
     errorCode: number|undefined
-    login : (state: loginStateProps)=>Promise<void>
+    login : (state: loginStateProps)=>Promise<loginUserResponseProps|undefined>
     success: boolean
 }
 
@@ -17,10 +16,7 @@ export function useLogin() :LoginType {
     const [error, setError] = useState<boolean>(false)
     const [errorCode, setErrorCode]= useState<number|undefined>(0)
     const [success, setSuccess] = useState<boolean>(false)
-    const user  = useUser()
     const login = async (state: loginStateProps)=>{
-        console.log(state)
-        console.log(result)
         try
         {
             const response = await axios.post<loginUserResponseProps>("https://localhost:7068/api/account/signin",{
@@ -37,9 +33,10 @@ export function useLogin() :LoginType {
             if(!response.data.result){
                 throw new Error(response.data.message)
             }
-            setResult(response.data)
             setSuccess(true)
             setError(false)
+
+            return response.data
         }
         catch(error){
             setError(true)
@@ -49,13 +46,6 @@ export function useLogin() :LoginType {
             }
         }
     }
-    
-    user.setUser({
-        email : result.email,
-        username: result.username,
-        token: result.token,
-        refreshToken: result.refreshToken
-    })
 
-    return {result, error, errorCode, login, success}
+    return {error, errorCode, login, success}
 }

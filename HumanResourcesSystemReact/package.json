@@ -20,6 +20,7 @@
     "react-dom": "^18.2.0",
     "react-router": "^6.20.1",
     "react-router-dom": "^6.20.1",
+    "react-toastify": "^10.0.5",
     "toastr": "^2.1.4"
   },
   "devDependencies": {

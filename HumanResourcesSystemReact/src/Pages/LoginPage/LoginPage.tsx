@@ -5,33 +5,42 @@ import { useState } from "react"
 import { loginStateProps } from "../../Utilities/Types";
 import { useUser } from "../../Hooks/useUserContext";
 import { useLogin } from "../../Hooks/useLogin";
-import toastr from "toastr";
+import { ToastContainer, toast } from "react-toastify";
+import { CurrentHTTPError } from "../../Utilities/CurrentFetchError";
 const LoginPage = ()=>{
 
     const [state, setState] = useState<loginStateProps>({IsRemember: false} as loginStateProps)
     const user = useUser()
     const navigate = useNavigate()
-    const {result, error, errorCode, login ,success} = useLogin()
+    const {error, errorCode, login ,success} = useLogin()
 
 
     const handleClick = async (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault()
-        console.log(result)
-        await login(state)
+        const result = await login(state)
+
         if(error){
-            toastr.error("There is a problem with fetch request")
+            toast.error(CurrentHTTPError(errorCode))
         }
         if(!success){
-            toastr.error("Invalid email or password")
+            toast.error("Invalid Email or Password")
+        }
+
+        if(typeof(result) === "undefined"){
+            //alert("Something went wrong")
+            //navigate("/login", {replace: true})
+            return
         }
         user.setUser({
-            email : result.email,
+            email: result.email,
             username: result.username,
             token: result.token,
             refreshToken: result.refreshToken
         })
+
         localStorage.setItem('RefreshToken', result.refreshToken)
         navigate("/", {replace: true})
+
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
@@ -45,6 +54,7 @@ const LoginPage = ()=>{
 
     return(
         <div className="container-fluid flex-grow-1">
+            <ToastContainer/>
             <div className="container pt-5 pb-5">
                 <div className="text-center">
                     <h2 className="display-3">Log in</h2>

@@ -6,35 +6,37 @@ import { loginInput } from "../../Utilities/input"
 import { useLogin } from "../../Hooks/useLogin"
 import { useUser } from "../../Hooks/useUserContext"
 import { Container, Row } from "react-bootstrap"
-import toastr from "toastr"
+import { ToastContainer, toast } from 'react-toastify';
+import { CurrentHTTPError } from "../../Utilities/CurrentFetchError"
 
 const HomePage = ()=>{
     const [state, setState] = useState<loginStateProps>({IsRemember:false} as loginStateProps)
     const navigate = useNavigate()
     const user = useUser();
-    const {result, error, errorCode, login,success} =  useLogin()
+    const { error, errorCode, login,success} =  useLogin()
     const handleClick = async (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault()
-        await login(state)
+        const result = await login(state)
+
         if(error){
-            toastr.error("There is a problem with fetch request")
+            toast.error(CurrentHTTPError(errorCode))
         }
         if(!success){
-            toastr.error("There is a problem with login: ")
+            toast.error("Invalid Email or Password")
+        }
+
+        if(typeof(result) === "undefined"){
+            //alert("Something went wrong")
+            //navigate("/login", {replace: true})
+            return
         }
         user.setUser({
-            email : result.email,
+            email: result.email,
             username: result.username,
             token: result.token,
             refreshToken: result.refreshToken
         })
 
-        if(error){
-            toastr.error("There is a problem with login request")
-        }
-        if(!success){
-            toastr.error("Invalid Email or Password")
-        }
         localStorage.setItem('RefreshToken', result.refreshToken)
         navigate("/", {replace: true})
 
@@ -43,13 +45,14 @@ const HomePage = ()=>{
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
         setState({...state, [e.target.name]:e.target.value})
     }
-
+    
     const rememberHandleChange = ()=>{
         setState({...state, IsRemember: !state.IsRemember})
     }
-
+    
     return(
-            <Container fluid className="d-flex">
+        <Container fluid className="d-flex">
+                <ToastContainer className="toast-top-right"/>
                 <Row className="flex-grow-1">
                     <div className="col-sm-6 d-flex justify-content-center align-items-center">
                         <div className="container pt-5">
