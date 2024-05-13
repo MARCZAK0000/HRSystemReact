@@ -1,12 +1,12 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { useState } from "react";
 
 type AxiosRequest<T> = {
     error: boolean, 
     errorCode: number|undefined,
     success: boolean
-    put: (url: string, method : RequestInit)=>Promise<T|undefined>
-    post:(url: string, method: RequestInit) =>Promise<T|undefined>
+    put: (url: string, method: RequestInit, config: AxiosRequestConfig)=>Promise<T|undefined>
+    post:(url: string, method: RequestInit, config: AxiosRequestConfig) =>Promise<T|undefined>
     get:(url: string, method:RequestInit)=>Promise<T|undefined>
 }
 
@@ -16,16 +16,10 @@ export function useAxiosRequest<T>(): AxiosRequest<T>{
     const [errorCode, setErrorCode] = useState<number|undefined>(0)
     const [success, setSuccess] = useState<boolean>(false)
 
-    const put = async(url: string, method: RequestInit): Promise<T|undefined> =>{
-        const body: any = method.body;
-        const config: any = method.headers
-        console.log(config)
+    const put = async(url: string, method: RequestInit, config: AxiosRequestConfig): Promise<T|undefined> =>{
+        const body = method.body
         try {
-            const response = await axios.put(url, body , {
-                headers:{
-                    "Content-Type": "application/json"
-                }
-            })
+            const response = await axios.put(url, body ,config)
             if(response.status==200){
                 setSuccess(true)
                 setError(false)
@@ -45,9 +39,8 @@ export function useAxiosRequest<T>(): AxiosRequest<T>{
         }
     }
 
-    const post = async(url: string, method: RequestInit): Promise<T|undefined> =>{
-        const body: any = method.body;
-        const config: any = method.headers
+    const post = async(url: string, method: RequestInit, config: AxiosRequestConfig): Promise<T|undefined> =>{
+        const body = method.body
         try {
             const response = await axios.post(url, body, config)
             if(response.status==200){
@@ -70,7 +63,6 @@ export function useAxiosRequest<T>(): AxiosRequest<T>{
     }
 
     const get = async(url: string, method: RequestInit): Promise<T|undefined> =>{
-        const body: any = method.body;
         const config: any = method.headers
         try {
             const response = await axios.get(url, config )

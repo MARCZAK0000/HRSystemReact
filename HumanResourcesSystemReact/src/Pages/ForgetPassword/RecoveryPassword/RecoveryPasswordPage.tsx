@@ -3,7 +3,7 @@ import { Button, Container, Form } from "react-bootstrap"
 import { Link, useSearchParams } from "react-router-dom"
 import { useApiCall } from "../../../Hooks/useApiCall"
 
-import { toast } from "react-toastify"
+import { ToastContainer, toast } from "react-toastify"
 import { CurrentHTTPError } from "../../../Utilities/CurrentFetchError"
 import { useAxiosRequest } from "../../../Hooks/useAxiosRequest"
 type RecoveryPasswordType = {
@@ -38,13 +38,18 @@ const RecoveryPasswordPage = ()=>{
     const handleSubmit = async (e:React.ChangeEvent<HTMLFormElement>)=>{
         e.preventDefault();
         const response = await put('https://localhost:7068/api/account/forget_password', {
-            body: JSON.stringify(state),
-            headers: {
-                "Content-Type":"application/json"
-            }
-        })
+                body: JSON.stringify(state)   
+            },
+            {
+                headers:{
+                    "Content-Type":"Application/json"
+                }
+            })
         if(error){
             toast.error(CurrentHTTPError(errorCode))
+        }
+        if(!response?.result){
+            toast.error("Invalid token or invalid Credentials")
         }
         if(typeof(response)===undefined){
             return 
@@ -55,9 +60,10 @@ const RecoveryPasswordPage = ()=>{
     return(
     <>
         <Container fluid className="d-flex">
+        <ToastContainer/>
             {
-                !success?
-                <Container> 
+            !success?
+            <Container> 
                 <Container className="text-center py-5 display-3">Reset Password</Container>
                 <Container className="text-center display-6">
                     <span>Please enter new password <br/> and confirm password to update informations</span>
