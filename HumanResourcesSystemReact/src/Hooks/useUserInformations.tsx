@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react"
 
-type UserInformationsType = {
+export type UserInformationsType = {
     userId: string,
     name: string,
     lastName: string,

@@ -2,15 +2,17 @@ import { useEffect, useState} from 'react';
 import { useUser } from '../../../Hooks/useUserContext';
 import { Col, Container, Nav, Row } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
-import { useUserInformations } from '../../../Hooks/useUserInformations';
+import { UserInformationsType, useUserInformations } from '../../../Hooks/useUserInformations';
 import MenuLink from '../../../Components/MenuDashboardPage';
 import { loginUserResponseProps } from '../../../Utilities/Types';
+import { useAxiosRequest } from '../../../Hooks/useAxiosRequest';
+import { toast, ToastContainer } from 'react-toastify';
 
 const DashboardPage = () => {
     const info = useUserInformations();
     const user = useUser();
     const [path, setPath] = useState<string>(window.location.href)
-
+    const {get} = useAxiosRequest<UserInformationsType>()
     const handleClick = ()=>{
         setPath(window.location.href)
     }
@@ -52,29 +54,27 @@ const DashboardPage = () => {
 
     useEffect(()=>{
         const fetchData = async ()=>{
-            try {
-                const response = await fetch("https://localhost:7068/api/user/info", {
-                    method: 'GET', 
-                    mode: 'cors',
-                    headers: { 'Content-Type': 'application/json', "Authorization" : `Bearer ${user.user?.token}`},
-                })
-    
-                if(!response.ok){
-                    throw new Error("Something went wrong")
-                }
 
-                const result = await response.json()
-                console.log(result)
-                info.setUserInfo(result)
-            } catch (error) {
-                console.log(error)
+            const response = await get('https://localhost:7068/api/user/info', {
+                headers: { 
+                    'Content-Type': 'application/json', 
+                    "Authorization" : `Bearer ${user.user?.token}`
+                }
+            })
+            
+            if(typeof(response) === "undefined"){
+                user.setUser(null)
+                return
             }
+            info.setUserInfo(response.data)
+            
         }
         fetchData();
     },[])
 
     return(
-        <>
+        <>  
+            <ToastContainer/>
             <Row className='flex-grow-1 d-flex mx-0'>
                 <Col className='border-end' xs={2}>
                     <div className='display-6 py-2'>

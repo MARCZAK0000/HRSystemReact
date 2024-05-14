@@ -24,7 +24,6 @@ const AttendanceLayout = ()=>{
                     </Nav.Item>
                 </Nav>
             </Navbar>
-        
             <Outlet/>
     </>)
 }

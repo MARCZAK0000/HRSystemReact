@@ -21,7 +21,7 @@ const ForgetPasswordPage = ()=>{
         phone: ''
     })
     const [isSend, setIsSend] = useState<boolean>(false)
-    const {error, errorCode, success, get} = useAxiosRequest<ResponseType>()
+    const { get} = useAxiosRequest<ResponseType>()
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
         setState(prev=>({
             ...prev,
@@ -31,7 +31,6 @@ const ForgetPasswordPage = ()=>{
 
     const handleSubmit = async (e:React.ChangeEvent<HTMLFormElement>)=>{
         e.preventDefault();
-        console.log(state);
         
         const response = await get(
             `https://localhost:7068/api/account/forget_password?Email=${state.email}&PhoneNumber=${state.phone}`,{
@@ -39,17 +38,16 @@ const ForgetPasswordPage = ()=>{
                 "Content-type":"application/json"
             }
         })
-        if(error){
-            toast.error(CurrentHTTPError(errorCode))
-        }
 
-        if(typeof(response) === "undefined"){
+        if(typeof(response.data) === "undefined"){
+            console.log("XD")
             return
         }
 
-        if(!response.result){
+        if(!response.data.result){
             toast.error("Invalid values of state")
         }
+        console.log(response)
         setIsSend(true)
         
     }

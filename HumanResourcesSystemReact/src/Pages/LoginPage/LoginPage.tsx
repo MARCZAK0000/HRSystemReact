@@ -54,7 +54,7 @@ const LoginPage = ()=>{
 
     return(
         <div className="container-fluid flex-grow-1">
-            <ToastContainer/>
+           <ToastContainer/> 
             <div className="container pt-5 pb-5">
                 <div className="text-center">
                     <h2 className="display-3">Log in</h2>

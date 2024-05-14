@@ -18,9 +18,11 @@ const MenuCard = ({children, img,link, color}: MenuCardType) =>{
                     {children}
                 </Card.Text>
                 <Container className="text-center">
-                    <Button className="btn-lg" variant={color}>
-                        <Link className="text-white text-decoration-none " to = {link}>GO!</Link>
-                    </Button>
+                    <Link className="text-white text-decoration-none " to = {link}>
+                        <Button className="btn-lg" variant={color}>
+                            GO!
+                        </Button>
+                    </Link>
                 </Container>
             </Card.Body>
         </Card>

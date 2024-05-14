@@ -7,39 +7,51 @@ import { ErrorCodeTypes, GetAttendanceDtoType } from "../../../../Utilities/Type
 import { Link } from "react-router-dom";
 import axios from "axios";
 import ErrorContainer from "../../../../Components/ErrorContainer";
+import { useAxiosRequest } from "../../../../Hooks/useAxiosRequest";
 
 const AttendanceDeparturePage = () =>{
     const [isLocked, setIsLocked] = useState<boolean>(true)
     const [attendance, setAttendance] = useState<GetAttendanceDtoType>({} as GetAttendanceDtoType)
+    const getAxios = useAxiosRequest<GetAttendanceDtoType>()
     const user = useUser()
-    const sendAttendanceApi = useApiCall<boolean>('https://localhost:7068/api/attendance')
-    const [error, setError] = useState<boolean>(false)
-    const [errorCode, setErrorCode] = useState<number|undefined>(0)
     const handleSwitch = ()=>{
         setIsLocked(prev=>!prev)
     }
     const getAttendance = async ()=>{
+        const response = await getAxios
+            .get(`https://localhost:7068/api/attendance/info/date?date=${CurrentDate()}`,{
 
-        try {
-            const result = await axios.get<GetAttendanceDtoType>(`https://localhost:7068/api/attendance/info/date?date=${CurrentDate()}`,{
-                headers: {
-                    "Content-type":"Application/json",
-                    "Authorization":`Bearer ${user.user?.token}`
-                }
-            })
-            console.log(result.status)  
-            setAttendance(result.data)
-        } catch (error) {
-            if(axios.isAxiosError(error)){
-                setErrorCode(error.response?.status)
-                console.log('error message: ', error.response?.status);
-                return error.message;
+            headers:{
+                'Content-Type':"Application/json",
+                "Authorization":`Bearer ${user.user?.token}`
             }
-            else {
-                console.log('unexpected error: ', error);
-                return 'An unexpected error occurred';
-              }
+        })
+
+        if(typeof(response)===undefined){
+            return
         }
+
+        setAttendance(response.data)
+        // try {
+        //     const result = await axios.get<GetAttendanceDtoType>(`https://localhost:7068/api/attendance/info/date?date=${CurrentDate()}`,{
+        //         headers: {
+        //             "Content-type":"Application/json",
+        //             "Authorization":`Bearer ${user.user?.token}`
+        //         }
+        //     })
+        //     console.log(result.status)  
+        //     setAttendance(result.data)
+        // } catch (error) {
+        //     if(axios.isAxiosError(error)){
+        //         setErrorCode(error.response?.status)
+        //         console.log('error message: ', error.response?.status);
+        //         return error.message;
+        //     }
+        //     else {
+        //         console.log('unexpected error: ', error);
+        //         return 'An unexpected error occurred';
+        //       }
+        // }
 
 
     }
@@ -47,22 +59,22 @@ const AttendanceDeparturePage = () =>{
         getAttendance()
     },[])
     const handleClick = async ()=>{
-        await sendAttendanceApi.fetchFunc({
-            method:'PUT',
-            mode: 'cors',
-            headers:{
-                'Content-type':'Application/json',
-                'Authorization':`Bearer ${user.user?.token}`
-            },
-            body: JSON.stringify({
-                Id: attendance.id,
-                departureDate: CurrentDate()
-            })
-        })
+        // await sendAttendanceApi.fetchFunc({
+        //     method:'PUT',
+        //     mode: 'cors',
+        //     headers:{
+        //         'Content-type':'Application/json',
+        //         'Authorization':`Bearer ${user.user?.token}`
+        //     },
+        //     body: JSON.stringify({
+        //         Id: attendance.id,
+        //         departureDate: CurrentDate()
+        //     })
+        // })
 
-        if(sendAttendanceApi.error|| sendAttendanceApi.data == false){
-            alert('Something went wrong, try again later')
-        }
+        // if(sendAttendanceApi.error|| sendAttendanceApi.data == false){
+        //     alert('Something went wrong, try again later')
+        // }
     }
     return(
     <>
@@ -83,7 +95,7 @@ const AttendanceDeparturePage = () =>{
                             onChange={handleSwitch}/>
                     </Form>
                 </Container>
-                {!error?
+                {getAxios.success&&
                 <Container className="pt-5">
                     <Table striped bordered hover>
                         <thead>
@@ -104,11 +116,9 @@ const AttendanceDeparturePage = () =>{
                         </tbody>
                     </Table>
                 </Container>
-                :
-                <ErrorContainer ErrorCode = {errorCode}/>
-            }
-                <Container className="d-flex justify-content-center pt-3">
-                    <Button disabled={isLocked || error} onClick={handleClick} variant="success btn-lg">Close Day</Button>
+                }
+                <Container className="d-flex justify-content-center py-3">
+                    <Button disabled={isLocked || getAxios.error} onClick={handleClick} variant="success btn-lg">Close Day</Button>
                 </Container>
             </Container>
             

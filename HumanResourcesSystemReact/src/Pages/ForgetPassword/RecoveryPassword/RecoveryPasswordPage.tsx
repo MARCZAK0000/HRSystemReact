@@ -23,7 +23,7 @@ const RecoveryPasswordPage = ()=>{
     const apiCall = useApiCall<ResponseType>
         ('https://localhost:7068/api/account/forget_password')
 
-    const {error, errorCode, success, put} = useAxiosRequest<ResponseType>()
+    const {success, put} = useAxiosRequest<ResponseType>()
     const [state, setState]=useState<RecoveryPasswordType>({
         Email : searchParams.get('email'),
         Password: '',
@@ -45,16 +45,13 @@ const RecoveryPasswordPage = ()=>{
                     "Content-Type":"Application/json"
                 }
             })
-        if(error){
-            toast.error(CurrentHTTPError(errorCode))
-        }
-        if(!response?.result){
-            toast.error("Invalid token or invalid Credentials")
-        }
         if(typeof(response)===undefined){
             return 
         }
         
+        if(!response?.data.result){
+            toast.error("Invalid token or invalid Credentials")
+        }
     }
 
     return(

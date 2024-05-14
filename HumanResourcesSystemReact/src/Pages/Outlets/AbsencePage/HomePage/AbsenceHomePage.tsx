@@ -9,7 +9,7 @@ const CreateAttendancePage = ()=>{
         <Container className="text-center pt-5 pb-4">
             <span className = "display-6">Welcome to Absence center</span>
         </Container>
-        <Container fluid className="mx-0 d-flex justify-content-center">
+        <Container fluid className="mx-0 d-flex justify-content-center pb-3">
             <Row className="w-75">
                 <Col className="d-flex">     
                         <MenuCard img = {HR2} link="/user/absence/create" color="success">
