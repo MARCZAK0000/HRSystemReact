@@ -6,14 +6,15 @@ import { CurrentDate } from "../../../../Utilities/CurrentDate"
 import { useAxiosRequest } from "../../../../Hooks/useAxiosRequest"
 import { toast, ToastContainer } from 'react-toastify';
 import { Link } from "react-router-dom"
+import AttendanceCreateForm from './ConditionalPages/AttendanceCreateForm';
+import AttendanceCreateSuccess from "./ConditionalPages/AttendanceCreateSuccess"
+import AttendanceCreateError from "./ConditionalPages/AttendanceCreateError"
 
 
 const AttendanceCreatePage = ()=>{
-    const apiCall  = useApiCall<boolean>('https://localhost:7068/api/attendance')
     const user = useUser()
-    const date : Date = new Date()
     const {post, success, errorCode, error} = useAxiosRequest<boolean>()
-    const[isLocked, setIsLocked] = useState<boolean>(true)
+    
 
     const handleClick = async ()=>{
         const response = await post('https://localhost:7068/api/attendance', {
@@ -29,24 +30,9 @@ const AttendanceCreatePage = ()=>{
             toast.error("There is a problem to save your arrivals, try again later")
             return
         }
-        toast.done("well done")
-        // await apiCall.fetchFunc({
-        //     method: "POST",
-        //     mode: 'cors',
-        //     headers: {
-        //         'Content-type':'application/json',
-        //         'Authorization':`Bearer ${user.user?.token}`
-        //     },
-        //     body: JSON.stringify({ArrivalDate : CurrentDate()})
-        // })
-        // if(apiCall.error|| apiCall.data == false){
-        //     alert('Something went wrong, try again later')
-        // }
+        toast.success("well done")
     }
 
-    const handleSwitch = ()=>{
-        setIsLocked(prev=>!prev)
-    }
     return(<>
         <Container fluid className="d-flex justify-content-center">
             <ToastContainer/>
@@ -57,59 +43,17 @@ const AttendanceCreatePage = ()=>{
                         <h5 className="display-4">Make your presence known!</h5>
                     </Container>
                     
-                    {   !success && !error &&
-                       <> 
-                            <Container className="text-center pt-5">
-                                <span className="display-6">Unlock button and then click it to create arrival</span>
-                            </Container>
-                            <Container className="d-flex justify-content-center pt-5">
-                                <Form>
-                                    <Form.Check style={{fontSize: '25px'}}
-                                        type="switch"
-                                        label={isLocked?"Unlock button": "Lock button"}
-                                        onChange={handleSwitch}/>
-                                </Form>
-                            </Container>
-                            <Container className="d-flex justify-content-center pt-3">
-                                <Button disabled={isLocked} onClick={handleClick} variant="success btn-lg">Create</Button>
-                            </Container>
-                        </>
+                    {   
+                        !success && !error &&
+                            <AttendanceCreateForm handleClick={handleClick}/>
                     }
                     {
                         success &&
-                        <>
-                            
-                                <Container className="text-center py-5">
-                                    <h2 className="display-4">Well done, you are present</h2>
-                                    <h6 className="display-6">
-                                        <Link to={"/"}>Home page</Link>
-                                    </h6>
-                                </Container>
-                        </>
+                            <AttendanceCreateSuccess/>
                     }
                     {
                         error && 
-                            <>
-                                <Container className="text-center py-5">
-                                    <h2 className="display-4">Something went wrong, try again later</h2>
-                                    {
-                                        errorCode === 400 &&
-                                        <p className="display-5">Maybe you checked your absence Today</p> 
-                                    }
-                                    {
-                                        errorCode === 401 &&
-                                        <p className="display-5">There is a problem with access Token</p> 
-                                    }
-                                    {
-                                        errorCode === 404 &&
-                                        <p className="display-5">User Not Found</p> 
-                                    }
-
-                                    <h6 className="display-6">
-                                        <Link to={"/"}>Home page</Link>
-                                    </h6>
-                                </Container>
-                            </>
+                            <AttendanceCreateError errorCode={errorCode}/>
                     }
             </Container>
         </Container>

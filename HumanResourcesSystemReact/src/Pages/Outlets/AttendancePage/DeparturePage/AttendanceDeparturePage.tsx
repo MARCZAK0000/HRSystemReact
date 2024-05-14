@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react"
-import { Button, Container, Form, Table } from "react-bootstrap"
-import { useApiCall } from '../../../../Hooks/useApiCall';
+import { Container, ToastContainer } from "react-bootstrap"
 import { useUser } from "../../../../Hooks/useUserContext";
 import { CurrentDate } from "../../../../Utilities/CurrentDate";
-import { ErrorCodeTypes, GetAttendanceDtoType } from "../../../../Utilities/Types";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import ErrorContainer from "../../../../Components/ErrorContainer";
+import { GetAttendanceDtoType } from "../../../../Utilities/Types";
 import { useAxiosRequest } from "../../../../Hooks/useAxiosRequest";
+import { toast } from "react-toastify";
+import AttendanceDepartureSuccess from "./DepartureConditionalPages/AttendanceDepartureSucces";
+import AttendanceDepartureError from "./DepartureConditionalPages/AttendanceDepartureError";
+import AttendanceDeparturePostSuccess from "./DepartureConditionalPages/AttendanceDeparturePostSuccess";
 
 const AttendanceDeparturePage = () =>{
-    const [isLocked, setIsLocked] = useState<boolean>(true)
     const [attendance, setAttendance] = useState<GetAttendanceDtoType>({} as GetAttendanceDtoType)
     const getAxios = useAxiosRequest<GetAttendanceDtoType>()
+    const postAxios = useAxiosRequest<boolean>()
     const user = useUser()
-    const handleSwitch = ()=>{
-        setIsLocked(prev=>!prev)
-    }
+
+
+
     const getAttendance = async ()=>{
         const response = await getAxios
             .get(`https://localhost:7068/api/attendance/info/date?date=${CurrentDate()}`,{
@@ -32,94 +32,63 @@ const AttendanceDeparturePage = () =>{
         }
 
         setAttendance(response.data)
-        // try {
-        //     const result = await axios.get<GetAttendanceDtoType>(`https://localhost:7068/api/attendance/info/date?date=${CurrentDate()}`,{
-        //         headers: {
-        //             "Content-type":"Application/json",
-        //             "Authorization":`Bearer ${user.user?.token}`
-        //         }
-        //     })
-        //     console.log(result.status)  
-        //     setAttendance(result.data)
-        // } catch (error) {
-        //     if(axios.isAxiosError(error)){
-        //         setErrorCode(error.response?.status)
-        //         console.log('error message: ', error.response?.status);
-        //         return error.message;
-        //     }
-        //     else {
-        //         console.log('unexpected error: ', error);
-        //         return 'An unexpected error occurred';
-        //       }
-        // }
-
+        toast.success("Downloading data: Completed")
 
     }
+
+
+    const handleClick = async ()=>{
+        const response = await postAxios.put('https://localhost:7068/api/attendance', {
+            body: JSON.stringify({
+                DepartureDate : CurrentDate(),
+                Id: attendance.id}) },{
+            headers: {
+                'Content-type':'application/json',
+                'Authorization':`Bearer ${user.user?.token}`
+            }
+        }
+    )
+    if(!response.data){
+        toast.error("There is a problem to save your arrivals, try again later")
+        return
+    }
+    toast.success("well done")
+    }
+
+        
+    
+
+
     useEffect(()=>{
         getAttendance()
     },[])
-    const handleClick = async ()=>{
-        // await sendAttendanceApi.fetchFunc({
-        //     method:'PUT',
-        //     mode: 'cors',
-        //     headers:{
-        //         'Content-type':'Application/json',
-        //         'Authorization':`Bearer ${user.user?.token}`
-        //     },
-        //     body: JSON.stringify({
-        //         Id: attendance.id,
-        //         departureDate: CurrentDate()
-        //     })
-        // })
-
-        // if(sendAttendanceApi.error|| sendAttendanceApi.data == false){
-        //     alert('Something went wrong, try again later')
-        // }
-    }
     return(
     <>
         <Container fluid className="d-flex justify-content-center">
+            <ToastContainer/>
             <Container>
                 <Container className="text-center pt-5">
                     <h2 className="display-1">Departure</h2>
                     <h5 className="display-4">Goodbye!</h5>
                 </Container>
-                <Container className="text-center pt-5">
-                    <span className="display-6">Unlock button and then click it to create departure</span>
-                </Container>
-                <Container className="d-flex justify-content-center pt-5">
-                    <Form>
-                        <Form.Check style={{fontSize: '25px'}}
-                            type="switch"
-                            label={isLocked?"Unlock button": "Lock button"}
-                            onChange={handleSwitch}/>
-                    </Form>
-                </Container>
-                {getAxios.success&&
-                <Container className="pt-5">
-                    <Table striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Arrival Time</th>
-                                <th>Created Day</th>
-                                <th>IsCompleted</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{attendance.id}</td>
-                                <td>{attendance.arrival}</td>
-                                <td>{new Date(attendance.createDay).toLocaleDateString()}</td>
-                                <td>{attendance.isCompleted?'true':'false'}</td>
-                            </tr>
-                        </tbody>
-                    </Table>
-                </Container>
+               
+                
+                {
+                    getAxios.success&&!postAxios.error&&!postAxios.success&&
+                    <AttendanceDepartureSuccess data = {attendance} handleClick={handleClick}/>
                 }
-                <Container className="d-flex justify-content-center py-3">
-                    <Button disabled={isLocked || getAxios.error} onClick={handleClick} variant="success btn-lg">Close Day</Button>
-                </Container>
+                {
+                    getAxios.error&&
+                    <AttendanceDepartureError errorCode = {getAxios.errorCode}/>
+                }
+                {
+                     postAxios.error&&
+                     <AttendanceDepartureError errorCode = {postAxios.errorCode}/>
+                }
+                {
+                    postAxios.success&&
+                    <AttendanceDeparturePostSuccess/>
+                }
             </Container>
             
         </Container>
