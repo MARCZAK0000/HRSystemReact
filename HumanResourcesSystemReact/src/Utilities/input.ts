@@ -53,3 +53,35 @@ export const loginInput: loginInputProps[] = [
     type: "password",
   },
 ];
+
+type AbsenceTypes = {
+  name: string;
+  value: number;
+};
+
+export const AbsenceTypesInput: AbsenceTypes[] = [
+  {
+    name: "Holidays",
+    value: 1,
+  },
+  {
+    name: "Unauthorised absence",
+    value: 2,
+  },
+  {
+    name: "Medical leave",
+    value: 3,
+  },
+  {
+    name: "Bereavement leave",
+    value: 4,
+  },
+  {
+    name: "Parental leave",
+    value: 5,
+  },
+  {
+    name: "Caregiver leave",
+    value: 6,
+  },
+];

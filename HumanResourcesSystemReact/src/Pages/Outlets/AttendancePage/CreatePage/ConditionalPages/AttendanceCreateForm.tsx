@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 
 
@@ -7,9 +7,11 @@ type AttendanceCreateFormType={
 }
 export default function AttendanceCreateForm({handleClick}:AttendanceCreateFormType){
     const[isLocked, setIsLocked] = useState<boolean>(true)
-    const handleSwitch = ()=>{
+
+    const handleSwitch = useCallback(()=>{
         setIsLocked(prev=>!prev)
-    }
+    }, [isLocked])
+    
     return(
     <>
         <Container className="text-center pt-5">

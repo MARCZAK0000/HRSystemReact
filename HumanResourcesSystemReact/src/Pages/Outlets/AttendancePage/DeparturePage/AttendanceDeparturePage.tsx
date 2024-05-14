@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from 'react';
 import { Container, ToastContainer } from "react-bootstrap"
 import { useUser } from "../../../../Hooks/useUserContext";
 import { CurrentDate } from "../../../../Utilities/CurrentDate";
@@ -17,7 +17,7 @@ const AttendanceDeparturePage = () =>{
 
 
 
-    const getAttendance = async ()=>{
+    const getAttendance = useCallback(async ()=>{
         const response = await getAxios
             .get(`https://localhost:7068/api/attendance/info/date?date=${CurrentDate()}`,{
 
@@ -34,10 +34,10 @@ const AttendanceDeparturePage = () =>{
         setAttendance(response.data)
         toast.success("Downloading data: Completed")
 
-    }
+    },[])
 
 
-    const handleClick = async ()=>{
+    const handleClick = useCallback(async ()=>{
         const response = await postAxios.put('https://localhost:7068/api/attendance', {
             body: JSON.stringify({
                 DepartureDate : CurrentDate(),
@@ -53,7 +53,7 @@ const AttendanceDeparturePage = () =>{
         return
     }
     toast.success("well done")
-    }
+    },[attendance.id])
 
         
     

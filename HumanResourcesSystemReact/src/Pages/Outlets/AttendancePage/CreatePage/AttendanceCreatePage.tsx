@@ -1,14 +1,12 @@
-import { Button, Container, Form } from "react-bootstrap"
-import { useApiCall } from "../../../../Hooks/useApiCall"
+import { Container } from "react-bootstrap"
 import { useUser } from "../../../../Hooks/useUserContext"
-import { useState } from "react"
 import { CurrentDate } from "../../../../Utilities/CurrentDate"
 import { useAxiosRequest } from "../../../../Hooks/useAxiosRequest"
 import { toast, ToastContainer } from 'react-toastify';
-import { Link } from "react-router-dom"
 import AttendanceCreateForm from './ConditionalPages/AttendanceCreateForm';
 import AttendanceCreateSuccess from "./ConditionalPages/AttendanceCreateSuccess"
 import AttendanceCreateError from "./ConditionalPages/AttendanceCreateError"
+import { useCallback } from "react";
 
 
 const AttendanceCreatePage = ()=>{
@@ -16,22 +14,24 @@ const AttendanceCreatePage = ()=>{
     const {post, success, errorCode, error} = useAxiosRequest<boolean>()
     
 
-    const handleClick = async ()=>{
-        const response = await post('https://localhost:7068/api/attendance', {
-                body: JSON.stringify({ArrivalDate : CurrentDate()})
-            },{
-                headers: {
-                    'Content-type':'application/json',
-                    'Authorization':`Bearer ${user.user?.token}`
+    const handleClick = useCallback(
+        async ()=>{
+            const response = await post('https://localhost:7068/api/attendance', {
+                    body: JSON.stringify({ArrivalDate : CurrentDate()})
+                },{
+                    headers: {
+                        'Content-type':'application/json',
+                        'Authorization':`Bearer ${user.user?.token}`
+                    }
                 }
+            )
+            if(!response.data){
+                toast.error("There is a problem to save your arrivals, try again later")
+                return
             }
-        )
-        if(!response.data){
-            toast.error("There is a problem to save your arrivals, try again later")
-            return
+            toast.success("well done")
         }
-        toast.success("well done")
-    }
+    ,[]) 
 
     return(<>
         <Container fluid className="d-flex justify-content-center">

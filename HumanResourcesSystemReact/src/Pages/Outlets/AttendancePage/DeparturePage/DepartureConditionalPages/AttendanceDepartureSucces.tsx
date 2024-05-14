@@ -1,6 +1,6 @@
 import { Button, Container, Form, Table } from "react-bootstrap"
 import { GetAttendanceDtoType } from "../../../../../Utilities/Types"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 
 type AttendanceDepartureSuccessType = {
     data: GetAttendanceDtoType
@@ -8,9 +8,9 @@ type AttendanceDepartureSuccessType = {
 }
 export default function AttendanceDepartureSuccess({data, handleClick} : AttendanceDepartureSuccessType){
     const [isLocked, setIsLocked] = useState<boolean>(true)
-    const handleSwitch = ()=>{
+    const handleSwitch = useCallback(()=>{
         setIsLocked(prev=>!prev)
-    }
+    }, [isLocked])
 
     return(
         <>

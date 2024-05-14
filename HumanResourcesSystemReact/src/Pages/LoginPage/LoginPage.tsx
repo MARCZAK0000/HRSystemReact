@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
 import { Button } from "../../Components/button"
 import { loginInput } from '../../Utilities/input';
-import { useState } from "react"
+import { useEffect, useState, useCallback } from 'react';
 import { loginStateProps } from "../../Utilities/Types";
 import { useUser } from "../../Hooks/useUserContext";
 import { useLogin } from "../../Hooks/useLogin";
@@ -15,7 +15,7 @@ const LoginPage = ()=>{
     const {error, errorCode, login ,success} = useLogin()
 
 
-    const handleClick = async (e:React.MouseEvent<HTMLButtonElement>)=>{
+    const handleClick = useCallback(async (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault()
         const result = await login(state)
 
@@ -41,7 +41,7 @@ const LoginPage = ()=>{
         localStorage.setItem('RefreshToken', result.refreshToken)
         navigate("/", {replace: true})
 
-    }
+    },[state])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
         setState({...state, [e.target.name]: e.target.value})

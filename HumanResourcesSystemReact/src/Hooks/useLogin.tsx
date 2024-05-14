@@ -12,7 +12,6 @@ type LoginType = {
 
 export function useLogin() :LoginType {
 
-    const [result, setResult] = useState<loginUserResponseProps>({} as loginUserResponseProps)
     const [error, setError] = useState<boolean>(false)
     const [errorCode, setErrorCode]= useState<number|undefined>(0)
     const [success, setSuccess] = useState<boolean>(false)
