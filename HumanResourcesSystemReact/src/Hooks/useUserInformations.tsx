@@ -7,7 +7,11 @@ export type UserInformationsType = {
     userCode: string,
     email: string, 
     phone: string,
-    departmentName: string
+    departmentName: string,
+    educationLevelName: string,
+    daysOfAbsencesToUse: number,
+    daysOfAbsencesCurrentYear:number,
+    IsEmailConfirmed: boolean
 }
 
 type UserInformationsContext = {

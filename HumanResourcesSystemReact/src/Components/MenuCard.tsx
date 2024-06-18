@@ -10,10 +10,10 @@ type MenuCardType = {
 
 const MenuCard = ({children, img,link, color}: MenuCardType) =>{
     return(<>
-        <Card className="w-100">
+        <Card className="w-75">
             <Card.Body className="w-100">
                 <Card.Title className="text-center">{children}</Card.Title>
-                <Card.Img style={ {height: '450px'}} src={img}></Card.Img>
+                <Card.Img style={ {height: '300px'}} src={img}></Card.Img>
                 <Card.Text className="text-center">
                     {children}
                 </Card.Text>

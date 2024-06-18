@@ -6,7 +6,7 @@ import { UserInformationsType, useUserInformations } from '../../../Hooks/useUse
 import MenuLink from '../../../Components/MenuDashboardPage';
 import { loginUserResponseProps } from '../../../Utilities/Types';
 import { useAxiosRequest } from '../../../Hooks/useAxiosRequest';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 const DashboardPage = () => {
     const info = useUserInformations();
@@ -75,36 +75,36 @@ const DashboardPage = () => {
     return(
         <>  
             <ToastContainer/>
-            <Row className='flex-grow-1 d-flex mx-0'>
+            <Row className='flex-grow-1 d-flex mx-0 '>
                 <Col className='border-end' xs={2}>
-                    <div className='display-6 py-2'>
-                        <span>Menu</span>
-                    </div>
                     <Nav onClick={handleClick} className='flex-column' variant='pills' defaultActiveKey="" >
+                        <div className='display-6 py-2'>
+                            <span>Menu</span>
+                        </div>
                         <MenuLink 
                         to={"/"} 
-                        isActive={path.endsWith("/")? true : false}
-                        >Home
+                        isActive={path.endsWith("/")? true : false}>
+                            Home
                         </MenuLink>
                         <MenuLink 
                         to={"/user/attendance"} 
-                        isActive={path.includes("/user/attendance")? true : false}
-                        >Attendance
+                        isActive={path.includes("/user/attendance")? true : false}>
+                            Attendance
                         </MenuLink>
                         <MenuLink 
                         to={"/user/absence"} 
-                        isActive={path.includes("/user/absence")? true : false}
-                        >Absence
+                        isActive={path.includes("/user/absence")? true : false}>
+                            Absence
                         </MenuLink>
                         <MenuLink 
-                        to={"/account/settings"} 
-                        isActive={path.includes("/account/settings")? true : false}
-                        >Settings
+                        to={"/user/settings"} 
+                        isActive={path.includes("/user/settings")? true : false}>
+                            Settings
                         </MenuLink>
                         <MenuLink 
                         to={"/asdasd"} 
-                        isActive={path.includes("/asdasd")? true : false}
-                        >Logout
+                        isActive={path.includes("/asdasd")? true : false}>
+                            Logout
                         </MenuLink>
                     </Nav>
                 </Col>

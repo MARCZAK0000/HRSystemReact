@@ -11,24 +11,28 @@ const AttendanceHomePage = ()=>{
         <Container className="text-center pt-5 pb-4">
             <span className = "display-6">Welcome to Attendance center</span>
         </Container>
-        <Container fluid className="mx-0 d-flex justify-content-center ">
+        <Container fluid className="mx-0">
             <Row>
-                <Col className="d-flex">     
+                <Col className="d-flex justify-content-center">     
                     <MenuCard img = {HR3} link="/user/attendance/create" color="success">
                         <p>Arrival</p>
                     </MenuCard>
                 </Col> 
-                <Col className="d-flex">     
+                <Col className="d-flex justify-content-center">     
                     <MenuCard img = {HR2} link="/user/attendance/close" color="primary">
                         <p>Departure</p>
                     </MenuCard>
                 </Col> 
-                <Col>
-                    <MenuCard img = {HR1} link="/user/attendance/info" color="danger">
-                        <p>Stats</p>
-                    </MenuCard>
-                </Col>
             </Row>
+            <Container className="mt-5 mb-3 d-flex justify-content-center">
+                <Row className="w-50">
+                    <Col>
+                        <MenuCard img = {HR1} link="/user/attendance/info" color="danger">
+                            <p>Stats</p>
+                        </MenuCard>
+                    </Col>
+                </Row>
+            </Container>
         </Container>
     </>)
 }

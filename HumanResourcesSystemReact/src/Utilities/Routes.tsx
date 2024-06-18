@@ -16,6 +16,8 @@ import AttendanceDeparturePage from "../Pages/Outlets/AttendancePage/DeparturePa
 import AttendanceInfoPage from "../Pages/Outlets/AttendancePage/InfoPage/AttendanceInfoPage";
 import RecoveryPasswordPage from "../Pages/ForgetPassword/RecoveryPassword/RecoveryPasswordPage";
 import ForgetPasswordLayout from "../Pages/ForgetPassword/ForgetPasswordLayout/ForgetPasswrodLayout";
+import SettingsHomePage from "../Pages/Outlets/SettingsPage/HomePage/SettingsHomePage";
+import SettingsLayoutPage from "../Pages/Outlets/SettingsPage/LayoutPage/SettingsLayoutPage";
 
 
 
@@ -48,9 +50,18 @@ export function PublicRoutes(): RouteObject[]{
                         },{
                             path:"/user/attendance/info", element: <AttendanceInfoPage/>
                         }]
-                }
-                ,{
+                },{
                     path:"/", element: <WelcomeUserPage/>, 
+                },{
+                    path:"/user/settings", element: <SettingsLayoutPage/>, children:[{
+                        path: "/user/settings", element: <SettingsHomePage/>
+                    },{
+                        path: "/user/settings/password"
+                    },{
+                        path: "/user/settings/email/confirm"
+                    },{
+                        path: "/user/settings/informations"
+                    }] 
                 }] },
             {path: "/register", element: <RegisterPage/>},
             {path: "/login", element: <LoginPage/>},
