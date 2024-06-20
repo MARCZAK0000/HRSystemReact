@@ -18,6 +18,7 @@ import RecoveryPasswordPage from "../Pages/ForgetPassword/RecoveryPassword/Recov
 import ForgetPasswordLayout from "../Pages/ForgetPassword/ForgetPasswordLayout/ForgetPasswrodLayout";
 import SettingsHomePage from "../Pages/Outlets/SettingsPage/HomePage/SettingsHomePage";
 import SettingsLayoutPage from "../Pages/Outlets/SettingsPage/LayoutPage/SettingsLayoutPage";
+import ConfirmEmailPage from "../Pages/Outlets/SettingsPage/ConfirmEmail/ConfirmEmailPage";
 
 
 
@@ -58,7 +59,7 @@ export function PublicRoutes(): RouteObject[]{
                     },{
                         path: "/user/settings/password"
                     },{
-                        path: "/user/settings/email/confirm"
+                        path: "/user/settings/email/confirm", element: <ConfirmEmailPage/>
                     },{
                         path: "/user/settings/informations"
                     }] 
