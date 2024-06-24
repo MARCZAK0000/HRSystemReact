@@ -11,7 +11,7 @@ export type UserInformationsType = {
     educationLevelName: string,
     daysOfAbsencesToUse: number,
     daysOfAbsencesCurrentYear:number,
-    IsEmailConfirmed: boolean
+    isEmailConfirmed: boolean
 }
 
 type UserInformationsContext = {

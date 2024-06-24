@@ -16,6 +16,7 @@ export default function CreateAbsenceFormCheck({handleCheck}: CreateAbsenceFormC
                     value={1}
                     label="single"
                     onChange={handleCheck}
+                    checked
                     />
                 <Form.Check
                     inline

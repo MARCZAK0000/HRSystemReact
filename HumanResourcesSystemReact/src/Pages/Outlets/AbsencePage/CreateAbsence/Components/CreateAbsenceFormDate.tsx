@@ -1,7 +1,45 @@
+import { Col, Container, Form, FormControl, FormGroup, FormLabel, Row } from "react-bootstrap"
+import React from 'react';
+
 type CreateAbsenceFormDateType = {
-    decision: number
+    decision: number,
+    handleDateChange: (e:React.ChangeEvent<HTMLDataElement>)=> void
 }
 
-export default function CreateAbsenceFormDate({decision}: CreateAbsenceFormDateType){
-    return(<></>)
+export default function CreateAbsenceFormDate({decision, handleDateChange}: CreateAbsenceFormDateType){
+    return(
+      <> 
+        <Container className="mt-5">
+            {decision<=1?
+            <>
+                    <Form>
+                        <FormGroup>
+                            <FormLabel className="display-5">Choose day</FormLabel>
+                            <FormControl type="date" onChange={handleDateChange}/>
+                        </FormGroup>
+                    </Form>
+            </>:
+            <>
+                <Row>
+                    <Col xs={6} className="p-0 m-0">
+                        <Container fluid>
+                            <FormGroup>
+                                <FormLabel className="display-5">Choose day</FormLabel>
+                                <FormControl title="startDate" onChange={handleDateChange} type="date"/>
+                            </FormGroup>
+                        </Container>
+                    </Col>
+                    <Col xs={6} className="p-0 m-0">
+                        <Container fluid>
+                            <FormGroup>
+                                <FormLabel className="display-5">Choose day</FormLabel>
+                                <FormControl title="endDate" onChange={handleDateChange} type="date"/>
+                            </FormGroup>
+                        </Container>
+                    </Col>
+                </Row>
+            </>}
+        </Container>
+           
+    </>)
 }

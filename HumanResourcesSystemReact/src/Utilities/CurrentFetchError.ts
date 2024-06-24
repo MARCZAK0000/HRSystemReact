@@ -17,7 +17,7 @@ export function CurrentHTTPError(errorCode: number | undefined): string {
       message = "There is no response from server";
       break;
     default:
-      message = "There is a server problem";
+      message = "There is a problem server, try again later";
       break;
   }
 
