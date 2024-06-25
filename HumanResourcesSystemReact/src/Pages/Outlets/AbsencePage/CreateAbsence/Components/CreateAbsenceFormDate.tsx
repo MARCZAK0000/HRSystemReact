@@ -24,7 +24,7 @@ export default function CreateAbsenceFormDate({decision, handleDateChange}: Crea
                     <Col xs={6} className="p-0 m-0">
                         <Container fluid>
                             <FormGroup>
-                                <FormLabel className="display-5">Choose day</FormLabel>
+                                <FormLabel className="display-5">Choose start day</FormLabel>
                                 <FormControl title="startDate" onChange={handleDateChange} type="date"/>
                             </FormGroup>
                         </Container>
@@ -32,7 +32,7 @@ export default function CreateAbsenceFormDate({decision, handleDateChange}: Crea
                     <Col xs={6} className="p-0 m-0">
                         <Container fluid>
                             <FormGroup>
-                                <FormLabel className="display-5">Choose day</FormLabel>
+                                <FormLabel className="display-5">Choose last day</FormLabel>
                                 <FormControl title="endDate" onChange={handleDateChange} type="date"/>
                             </FormGroup>
                         </Container>
