@@ -4,12 +4,13 @@ import React from 'react';
 type CreateAbsenceFormDateType = {
     decision: number,
     handleDateChange: (e:React.ChangeEvent<HTMLDataElement>)=> void
+   
 }
 
 export default function CreateAbsenceFormDate({decision, handleDateChange}: CreateAbsenceFormDateType){
     return(
       <> 
-        <Container className="mt-5">
+        <Container fluid className="mt-5 p-0 m-0">
             {decision<=1?
             <>
                     <Form>

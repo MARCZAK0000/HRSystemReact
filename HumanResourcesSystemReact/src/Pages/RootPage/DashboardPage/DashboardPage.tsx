@@ -7,6 +7,7 @@ import MenuLink from '../../../Components/MenuDashboardPage';
 import { loginUserResponseProps } from '../../../Utilities/Types';
 import { useAxiosRequest } from '../../../Hooks/useAxiosRequest';
 import { ToastContainer } from 'react-toastify';
+import ChatLayout from '../../ChatPage/ChatLayout';
 
 const DashboardPage = () => {
     const info = useUserInformations();
@@ -74,7 +75,6 @@ const DashboardPage = () => {
 
     return(
         <>  
-            <ToastContainer/>
             <Row className='flex-grow-1 d-flex mx-0 '>
                 <Col className='border-end' xs={2}>
                     <Nav onClick={handleClick} className='flex-column' variant='pills' defaultActiveKey="" >
@@ -108,9 +108,14 @@ const DashboardPage = () => {
                         </MenuLink>
                     </Nav>
                 </Col>
-                <Col xs={10} className='d-flex flex-grow-1 p-0 m-0'>
+                <Col xs={8} className='d-flex border-end p-0 m-0'>
                     <Container fluid className='p-0 m-0'>
                         <Outlet/>
+                    </Container>
+                </Col>
+                <Col xs={2} className='h-100 p-0 m-0'>
+                    <Container fluid className='p-0 m-0 h-100'>
+                        <ChatLayout/>
                     </Container>
                 </Col>
             </Row>

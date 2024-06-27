@@ -20,7 +20,7 @@ export type loginUserResponseProps = {
   email: string;
   username: string;
   token: string;
-  refreshToken: string ;
+  refreshToken: string;
   message: string;
 };
 
@@ -53,4 +53,14 @@ export type ErrorCodeTypes = {
   Forbidden: boolean;
   Unauthorized: boolean;
   NotFound: boolean;
+};
+
+export type CreateAbsenceResponseType = {
+  name: string;
+  absenceTypeName: string;
+  startTime: Date;
+  endTime: Date;
+  periodOfTime: number;
+  isAccepted: boolean;
+  declined: boolean;
 };

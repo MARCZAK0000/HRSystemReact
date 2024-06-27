@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom"
 import { useUser } from "../Hooks/useUserContext"
-import { Container } from "react-bootstrap";
+import { Container, Image } from "react-bootstrap";
+import { useUserInformations } from "../Hooks/useUserInformations";
 
 
 export const NavBar = ()=>{
 
     const user = useUser();
+    const userInfo = useUserInformations()
     return(
         <Container fluid className="p-0 m-0 d-flex">
             <nav className="ps-5 navbar navbar-expand-lg navbar-light border-bottom w-100">
@@ -41,6 +43,14 @@ export const NavBar = ()=>{
                      <ul className="navbar-nav">
                          <li className="nav-item fs-5 me-1">
                              <Link className="nav-link" to="/">Welcome {user.user?.email}</Link>
+                         </li>
+                         <li className="d-flex align-items-center">
+                            <Image
+                                src={`http://127.0.0.1:10000/devstoreaccount1/pictures/${userInfo.userInfo?.userId}`}
+                                height={'50px'}
+                                width={'50px'}
+                                roundedCircle
+                            />
                          </li>
                      </ul>
                  </div>

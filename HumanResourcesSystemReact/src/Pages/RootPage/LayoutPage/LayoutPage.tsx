@@ -11,7 +11,6 @@ export default function Layout(){
             <Container fluid className="p-0 m-0 d-flex flex-grow-1">
                 <ToastContainer/>
                 <Outlet/>
-
             </Container>
             <Footer/>
          </div>

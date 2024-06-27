@@ -2,7 +2,8 @@
     min-height: 100svh;
 }
 .app{
-    min-height: inherit;
+    min-height: 100svh;
+    overflow: auto;
     display: flex;
     flex-direction: column;
 }

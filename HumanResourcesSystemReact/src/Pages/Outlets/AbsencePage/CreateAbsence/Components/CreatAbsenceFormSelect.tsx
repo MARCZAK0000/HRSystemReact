@@ -3,7 +3,7 @@ import { AbsenceTypesInput } from "../../../../../Utilities/input"
 import React from 'react';
 
 type CreateAbsenceFormSelectType = {
-    handleChange: (e: React.ChangeEvent<HTMLSelectElement>)
+    handleChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
 export default function CreateAbsenceFormSelect({handleChange}: CreateAbsenceFormSelectType){
