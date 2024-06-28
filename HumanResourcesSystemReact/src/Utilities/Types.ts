@@ -64,3 +64,15 @@ export type CreateAbsenceResponseType = {
   isAccepted: boolean;
   declined: boolean;
 };
+
+type DepartmentEmployeeInfo = {
+  userID: string;
+  userCode: string;
+  name: string;
+  lastName: string;
+};
+
+export type ContactList = {
+  departmentId: number;
+  employeeInfo: DepartmentEmployeeInfo;
+};
