@@ -108,7 +108,7 @@ const DashboardPage = () => {
                         </MenuLink>
                     </Nav>
                 </Col>
-                <Col xs={8} className='d-flex border-end p-0 m-0'>
+                <Col xxl={8} className='d-flex border-end p-0 m-0'>
                     <Container fluid className='p-0 m-0'>
                         <Outlet/>
                     </Container>

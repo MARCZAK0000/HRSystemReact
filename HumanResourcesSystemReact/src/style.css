@@ -3,7 +3,8 @@
 }
 .app{
     min-height: 100svh;
-    overflow: auto;
+    max-width: 100svw;
     display: flex;
+    overflow: hidden;
     flex-direction: column;
 }
