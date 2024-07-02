@@ -65,7 +65,7 @@ export type CreateAbsenceResponseType = {
   declined: boolean;
 };
 
-type DepartmentEmployeeInfoType = {
+export type DepartmentEmployeeInfoType = {
   userID: string;
   userCode: string;
   name: string;
@@ -78,9 +78,5 @@ export type DepartmentContactListType = {
 };
 
 export type CurrentUserChatMessageLiteType = {
-  currentUser: {
-    userID: string;
-    name: string;
-    lastName: string;
-  };
+  currentUser: DepartmentEmployeeInfoType;
 };
